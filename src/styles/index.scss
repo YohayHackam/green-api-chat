@@ -384,6 +384,27 @@ Button.simpleType:disabled:hover {
   cursor: pointer;
 }
 
+.opportunity-btn {
+  background-color: #ff5d2d !important;
+  border-color: #ff5d2d !important;
+  color: #fff !important;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #e54d1f !important;
+    border-color: #e54d1f !important;
+    color: #fff !important;
+  }
+
+  &:disabled {
+    background-color: #ffb3a0 !important;
+    border-color: #ffb3a0 !important;
+    color: #fff !important;
+    opacity: 0.6;
+  }
+}
+
 .ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item-icon {
   margin-inline-end: 20px !important;
 }

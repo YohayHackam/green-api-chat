@@ -173,11 +173,12 @@ const ChatListItem: FC<ContactListItemProps> = ({
       <Skeleton avatar title={false} loading={isLoading} active>       
           <Flex align="start" gap={8} style={{ marginLeft: 12 }}>
             <Button
-              type="primary"
+              type="default"
               size="large"
               icon={<OpportunityIcon style={{ width: 36, height: 36 }} />}
               disabled={!lastMessage.opportunityIds?.length}
               onClick={handleOpenOpportunity}
+              className="opportunity-btn"
             />
           </Flex>        
         <List.Item.Meta
