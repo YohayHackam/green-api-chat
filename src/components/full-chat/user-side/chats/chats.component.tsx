@@ -44,7 +44,7 @@ const Chats: FC = () => {
             </Button>
           )}
         </Flex>
-        <Flex gap={14} align="center">
+        {/* <Flex gap={14} align="center">
           {!isMax && <SelectStatusMode />}
           {!isMiniVersion && (type === 'console-page' || type === 'partner-iframe') && (
             <a className={type === 'partner-iframe' ? 'p-10' : undefined}>
@@ -55,7 +55,7 @@ const Chats: FC = () => {
               />
             </a>
           )}
-        </Flex>
+        </Flex> */}
       </Flex>
       {(settings?.stateInstance === StateInstanceEnum.Authorized ||
         settings?.stateInstance === StateInstanceEnum.Suspended) && (

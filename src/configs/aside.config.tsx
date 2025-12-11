@@ -1,4 +1,4 @@
-import { SettingOutlined } from '@ant-design/icons';
+import { GlobalOutlined, SettingOutlined } from '@ant-design/icons';
 
 import ChatIcon from 'assets/chat.svg?react';
 import InstanceIcon from 'assets/instance-icon.svg?react';
@@ -20,12 +20,18 @@ export const asideTopIconItems: (type: ChatType) => (AsideItem | null)[] = (type
 
 export const asideBottomIconItems: AsideItem[] = [
   // { item: 'archive', title: 'ARCHIVE_TITLE', icon: <ArchiveIcon /> },
+  // {
+  //   item: 'settings',
+  //   title: 'SETTINGS_TITLE',
+  //   icon: <SettingsSelect />,
+  // },
   {
-    item: 'settings',
-    title: 'SETTINGS_TITLE',
-    icon: <SettingsSelect />,
+     item: 'language',
+      title: 'LANGUAGE',
+      icon:<GlobalOutlined  />
+                                 
   },
-  { item: 'profile', title: 'PROFILE_TITLE', icon: <SettingOutlined width={20} height={20} /> },
+  // { item: 'profile', title: 'PROFILE_TITLE', icon: <SettingOutlined width={20} height={20} /> },
 ];
 
 export const USER_SIDE_ITEMS: UserSideItem[] = [
