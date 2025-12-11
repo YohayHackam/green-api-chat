@@ -112,6 +112,7 @@ export interface MessageInterface
   editedMessageId?: string;
   deletedMessageId?: string;
   pollMessageData?: PollMessageData;
+  opportunityIds?: string[];
 }
 
 export interface QuotedMessageInterface extends MessageInterface {

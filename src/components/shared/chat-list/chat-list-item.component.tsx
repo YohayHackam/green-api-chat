@@ -1,10 +1,11 @@
 import { FC, useEffect, useMemo } from 'react';
 
-import { Flex, List, Skeleton } from 'antd';
+import { Button, Flex, List, Skeleton } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import emptyAvatar from 'assets/emptyAvatar.svg';
 import emptyAvatarButAvailable from 'assets/emptyAvatarButAvailable.svg';
+import OpportunityIcon from 'assets/opportunity.svg?react';
 import emptyAvatarGroup from 'assets/emptyAvatarGroup.png';
 import waChatIcon from 'assets/wa-chat.svg';
 import AvatarImage from 'components/UI/avatar-image.component';
@@ -153,13 +154,32 @@ const ChatListItem: FC<ContactListItemProps> = ({
     setSearchQuery('');
   };
 
+  const handleOpenOpportunity = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (lastMessage.opportunityIds?.[0]) {
+      window.parent.postMessage(
+        { event: 'openOpportunity', opportunityId: lastMessage.opportunityIds[0] },
+        '*'
+      );
+    }
+  };
+
   return (
     <List.Item
       className={`list-item contact-list__item ${activeChat?.chatId === lastMessage.chatId ? 'active' : ''}`}
       onClick={handleSelectChat}
       title={avatar === emptyAvatar ? t('BLOCKED_OR_PRIVATE_CHAT') : undefined}
     >
-      <Skeleton avatar title={false} loading={isLoading} active>
+      <Skeleton avatar title={false} loading={isLoading} active>       
+          <Flex align="start" gap={8} style={{ marginLeft: 12 }}>
+            <Button
+              type="primary"
+              size="large"
+              icon={<OpportunityIcon style={{ width: 36, height: 36 }} />}
+              disabled={!lastMessage.opportunityIds?.length}
+              onClick={handleOpenOpportunity}
+            />
+          </Flex>        
         <List.Item.Meta
           avatar={
             <AvatarImage
@@ -169,7 +189,7 @@ const ChatListItem: FC<ContactListItemProps> = ({
           }
           title={
             <h6
-              className="text-overflow message-signerData"
+            className="text-overflow message-signerData"
               style={{ fontSize: 14, maxWidth: 280 }}
             >
               {isWhatsAppOfficialChat(lastMessage.chatId) ? 'WhatsApp' : chatName}
