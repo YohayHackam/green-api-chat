@@ -162,8 +162,9 @@ const BaseLayout: FC = () => {
       const apiUrl = searchParams.get('apiUrl');
       const mediaUrl = searchParams.get('mediaUrl');
       const ownerId = searchParams.get('ownerId');
+      const orgId = searchParams.get('orgId');
 
-      if (!idInstance || !apiTokenInstance || !apiUrl || !mediaUrl || !ownerId) return;
+      if (!idInstance || !apiTokenInstance || !apiUrl || !mediaUrl  || !orgId || !ownerId ) return;
 
       const language = searchParams.get('lng');
       const brandDescription = searchParams.get('dsc');
@@ -179,6 +180,7 @@ const BaseLayout: FC = () => {
         tariff: TariffsEnum.Business,
         typeInstance: 'whatsapp',
         ownerId,
+        orgId,
         oppId: oppId ? oppId : undefined,
       });
 

@@ -82,6 +82,7 @@ export interface InstanceInterface {
   apiTokenInstance: string;
   apiUrl: string;
   mediaUrl: string;
+  orgId?: string;
   ownerId?: string;
 }
 
