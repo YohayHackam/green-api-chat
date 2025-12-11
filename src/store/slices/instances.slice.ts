@@ -65,6 +65,7 @@ export const instancesSlice = createSlice({
           tariff: TariffsEnum;
           typeInstance: TypeInstance;
           isChatWorking?: boolean | null;
+          oppId?: string | undefined;
         }
       >
     ) => {
