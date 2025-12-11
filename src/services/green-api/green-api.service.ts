@@ -28,9 +28,9 @@ const customQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>
 
   const state = api.getState() as RootState;
   const type = state.chatReducer.type;
-  const { idInstance, apiTokenInstance, apiUrl, mediaUrl, allMessages, minutesToRefetch } = (
+  const { idInstance, apiTokenInstance, apiUrl, mediaUrl, allMessages, minutesToRefetch , ownerId, oppId} = (
     args as FetchArgs
-  ).params as InstanceInterface & { allMessages?: boolean; minutesToRefetch?: number };
+  ).params as InstanceInterface & { allMessages?: boolean; minutesToRefetch?: number; oppId?: string; };
 
   const cacheKey = `lastMessages(${JSON.stringify({ allMessages, apiTokenInstance, apiUrl, idInstance, mediaUrl })})`;
   const currentChats: MessageInterface[] | undefined = state.greenAPI.queries[cacheKey]?.data as
@@ -56,7 +56,7 @@ const customQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>
     baseQuery(
       {
         url: `${apiUrl}waInstance${idInstance}/lastIncomingMessages/${apiTokenInstance}`,
-        params: { minutes },
+        params: { minutes, ownerId, oppId },
       },
       { ...api, endpoint: 'lastIncomingMessages' },
       extraOptions
@@ -64,7 +64,7 @@ const customQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>
     baseQuery(
       {
         url: `${apiUrl}waInstance${idInstance}/lastOutgoingMessages/${apiTokenInstance}`,
-        params: { minutes },
+        params: { minutes, ownerId, oppId },
       },
       { ...api, endpoint: 'lastOutgoingMessages' },
       extraOptions

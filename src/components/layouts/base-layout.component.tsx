@@ -161,12 +161,14 @@ const BaseLayout: FC = () => {
       const apiTokenInstance = searchParams.get('apiTokenInstance');
       const apiUrl = searchParams.get('apiUrl');
       const mediaUrl = searchParams.get('mediaUrl');
+      const ownerId = searchParams.get('ownerId');
 
-      if (!idInstance || !apiTokenInstance || !apiUrl || !mediaUrl) return;
+      if (!idInstance || !apiTokenInstance || !apiUrl || !mediaUrl || !ownerId) return;
 
       const language = searchParams.get('lng');
       const brandDescription = searchParams.get('dsc');
       const brandImageUrl = searchParams.get('logo');
+      const oppId = searchParams.get('oppId');
 
       setType('partner-iframe');
       setSelectedInstance({
@@ -176,6 +178,8 @@ const BaseLayout: FC = () => {
         mediaUrl: mediaUrl + '/',
         tariff: TariffsEnum.Business,
         typeInstance: 'whatsapp',
+        ownerId,
+        oppId: oppId ? oppId : undefined,
       });
 
       language && i18n.changeLanguage(language);

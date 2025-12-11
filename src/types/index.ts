@@ -82,6 +82,7 @@ export interface InstanceInterface {
   apiTokenInstance: string;
   apiUrl: string;
   mediaUrl: string;
+  ownerId: string;
 }
 
 export interface ApiErrorResponse<T = DefaultApiErrorResponseData> {
