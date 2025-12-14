@@ -161,7 +161,6 @@ const BaseLayout: FC = () => {
 
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
-      console.log('handleMessage', event);
       if (!isConsoleMessageData(event.data)) return;
       switch (event.data.type) {
         case MessageEventTypeEnum.INIT:
@@ -217,7 +216,7 @@ const BaseLayout: FC = () => {
 
         case MessageEventTypeEnum.SET_CHAT_ID:
           console.log('handle Change ChatId Message', event);
-          return;
+          return handleChatId(event.data.payload);
 
         default:
           return;
