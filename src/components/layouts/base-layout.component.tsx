@@ -76,6 +76,7 @@ const BaseLayout: FC = () => {
 
   const handleChatId = async (chatId: string) => {
     if (chatId) {
+      setType('one-chat-only');
       let contactInfo = undefined;
       let groupInfo = undefined;
       let avatar = chatId.includes('g.us') ? emptyAvatarGroup : emptyAvatarButAvailable;
@@ -285,10 +286,7 @@ const BaseLayout: FC = () => {
       if (searchParams.has('chatId')) {
         // setType('one-chat-only');
         const chatId = searchParams.get('chatId');
-
-        if (chatId) {
-          handleChatId(chatId);
-        }
+        handleChatId(chatId);
       }
     }
     if (isHappyflow(searchParams)) {
@@ -349,10 +347,7 @@ const BaseLayout: FC = () => {
         if (searchParams.has('chatId')) {
           // setType('one-chat-only');
           const chatId = searchParams.get('chatId');
-
-          if (chatId) {
             handleChatId(chatId);
-          }
         }
       })();
     }
