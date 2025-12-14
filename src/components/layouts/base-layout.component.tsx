@@ -318,7 +318,9 @@ const BaseLayout: FC = () => {
             ownerId,
 
           });
-
+        else {
+          debugger;
+        }
         language && i18n.changeLanguage(language);
         brandDescription && setBrandData({ description: brandDescription });
         brandImageUrl && setBrandData({ brandImageUrl });
