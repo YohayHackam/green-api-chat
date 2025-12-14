@@ -300,7 +300,9 @@ const BaseLayout: FC = () => {
           message.error(t('UNKNOWN_ERROR'));
           return;
         }
+        console.log('sessionId:', sessionId);
         console.log('selectedInstance.sessionId:', selectedInstance.sessionId);
+        console.log('diffrent session:',(selectedInstance.sessionId !== sessionId));
         setType('partner-iframe');
         if (!selectedInstance.sessionId || selectedInstance.sessionId !== sessionId)
           setSelectedInstance({
