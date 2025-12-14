@@ -137,9 +137,19 @@ export function isPartnerChat(searchParams: URLSearchParams): boolean {
   );
 }
 
+export function isHappyflow(searchParams: URLSearchParams): boolean {
+  return (
+    searchParams.has('instanceUrl') &&
+    searchParams.has('sessionId') &&
+    searchParams.has('orgId') &&
+    searchParams.has('ownerId')
+  );
+}
+
 export function getSupportEmailByLanguage(language: LanguageLiteral) {
   if (language === 'en' || language === 'he')
     return EXTERNAL_LINKS.supportEmail['console.greenapi.com'];
 
   return EXTERNAL_LINKS.supportEmail.default;
 }
+

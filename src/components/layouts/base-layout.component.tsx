@@ -15,6 +15,7 @@ import { useIsMaxInstance } from 'hooks/use-is-max-instance';
 import {
   useLazyGetAvatarQuery,
   useLazyGetContactInfoQuery,
+  useLazyGetGreenCredentialsQuery,
   useLazyGetGroupDataQuery,
 } from 'services/green-api/endpoints';
 import { selectMiniVersion, selectType } from 'store/slices/chat.slice';
@@ -30,6 +31,7 @@ import {
   isPageInIframe,
   getErrorMessage,
   getPhoneNumberFromChatId,
+  isHappyflow,
 } from 'utils';
 
 const BaseLayout: FC = () => {
@@ -58,6 +60,7 @@ const BaseLayout: FC = () => {
   const [getContactInfo] = useLazyGetContactInfoQuery();
   const [getGroupData] = useLazyGetGroupDataQuery();
   const [getAvatar] = useLazyGetAvatarQuery();
+  const [getGreenCredentials] = useLazyGetGreenCredentialsQuery();
 
   useEffect(() => {
     if (window.parent && window.parent !== window) {
@@ -169,7 +172,7 @@ const BaseLayout: FC = () => {
       const language = searchParams.get('lng');
       const brandDescription = searchParams.get('dsc');
       const brandImageUrl = searchParams.get('logo');
-      const oppId = searchParams.get('oppId');
+      // const oppId = searchParams.get('oppId');
 
       setType('partner-iframe');
       setSelectedInstance({
@@ -181,7 +184,7 @@ const BaseLayout: FC = () => {
         typeInstance: 'whatsapp',
         ownerId,
         orgId,
-        oppId: oppId ? oppId : undefined,
+        // oppId: oppId ? oppId : undefined,
       });
 
       language && i18n.changeLanguage(language);
@@ -266,15 +269,141 @@ const BaseLayout: FC = () => {
         }
       }
     }
+    if (isHappyflow(searchParams)) {
+      const instanceUrl = searchParams.get('instanceUrl');
+      const sessionId = searchParams.get('sessionId');
+      const orgId = searchParams.get('orgId');
+      const ownerId = searchParams.get('ownerId');
+
+      if (!instanceUrl || !sessionId || !orgId || !ownerId) return;
+
+      const language = searchParams.get('lng');
+      const brandDescription = searchParams.get('dsc');
+      const brandImageUrl = searchParams.get('logo');
+
+      (async () => {
+        const { data: credentials, error: credentialsError } = await getGreenCredentials({
+          instanceUrl,
+          sessionId,
+          orgId,
+          // ownerId,
+        });
+      
+        if (credentialsError || !credentials) {
+          message.error(t('FETCH_ERROR'));
+          return;
+        }
+
+        const { idInstance, apiTokenInstance, apiUrl, mediaUrl } = credentials;
+
+        if (!idInstance || !apiTokenInstance || !apiUrl || !mediaUrl) {
+          message.error(t('UNKNOWN_ERROR'));
+          return;
+        }
+
+        setType('partner-iframe');
+        setSelectedInstance({
+          idInstance: +idInstance,
+          apiTokenInstance,
+          apiUrl: apiUrl.endsWith('/') ? apiUrl : apiUrl + '/',
+          mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
+          tariff: TariffsEnum.Business,
+          typeInstance: 'whatsapp',
+          ownerId,
+          orgId,
+        });
+
+        language && i18n.changeLanguage(language);
+        brandDescription && setBrandData({ description: brandDescription });
+        brandImageUrl && setBrandData({ brandImageUrl });
+
+        if (searchParams.has('chatId')) {
+          setType('one-chat-only');
+          const chatId = searchParams.get('chatId');
+
+          if (chatId) {
+            let contactInfo = undefined;
+            let groupInfo = undefined;
+            let avatar = chatId.includes('g.us') ? emptyAvatarGroup : emptyAvatarButAvailable;
+            let fetchError = undefined;
+
+            if (
+              (chatId.includes('g.us') || chatId.startsWith('-')) &&
+              !idInstance.toString().startsWith('7835')
+            ) {
+              const { data: groupData, error: groupDataError } = await getGroupData({
+                ...(isMax ? { chatId } : { groupId: chatId }),
+                apiUrl: apiUrl.endsWith('/') ? apiUrl : apiUrl + '/',
+                mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
+                apiTokenInstance,
+                idInstance: +idInstance,
+              });
+
+              if (groupData && groupData !== 'Error: item-not-found') groupInfo = groupData;
+              fetchError = groupDataError;
+
+              const { data: avatarData } = await getAvatar({
+                chatId,
+                apiUrl: apiUrl.endsWith('/') ? apiUrl : apiUrl + '/',
+                mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
+                apiTokenInstance,
+                idInstance: +idInstance,
+              });
+
+              if (avatarData) {
+                avatar = avatarData.urlAvatar;
+                if (!avatarData.available && !chatId.includes('g.us')) avatar = emptyAvatar;
+              }
+            }
+
+            if (!chatId.includes('g.us') && !idInstance.toString().startsWith('7835')) {
+              const { data: contactData, error: contactInfoError } = await getContactInfo({
+                chatId,
+                apiUrl: apiUrl.endsWith('/') ? apiUrl : apiUrl + '/',
+                mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
+                apiTokenInstance,
+                idInstance: +idInstance,
+              });
+
+              contactInfo = contactData;
+              if (contactInfo?.avatar) avatar = contactInfo.avatar;
+              fetchError = contactInfoError;
+            }
+
+            if (fetchError) {
+              message.error(getErrorMessage(fetchError, t), 0);
+              return;
+            }
+
+            const senderName =
+              (typeof groupInfo === 'object' &&
+                groupInfo !== null &&
+                'subject' in groupInfo &&
+                groupInfo.subject) ||
+              contactInfo?.contactName ||
+              contactInfo?.name ||
+              getPhoneNumberFromChatId(chatId);
+
+            setActiveChat({
+              chatId,
+              senderName,
+              avatar,
+              contactInfo: groupInfo || contactInfo,
+            });
+          }
+        }
+      })();
+    }
   }, [searchParams]);
 
   useEffect(() => {
     const isNotAuthorized = !isAuth(user);
     const isNotPartner = !isPartnerChat(searchParams);
     const isNotIframe = !isPageInIframe();
+    const isNotHappyflow = !isHappyflow(searchParams);
 
     const shouldThrowOnMini = isNotAuthorized && !isMiniVersion && isNotPartner && isEventAdded;
-    const shouldThrowOnTab = isNotAuthorized && isNotPartner && isNotIframe && type === 'tab';
+    const shouldThrowOnTab = isNotAuthorized && isNotPartner && isNotIframe && isNotHappyflow && type === 'tab';
 
     if (shouldThrowOnMini || shouldThrowOnTab) {
       throw new Error('NO_INSTANCE_CREDENTIALS');
