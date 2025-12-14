@@ -164,10 +164,10 @@ const BaseLayout: FC = () => {
       const apiTokenInstance = searchParams.get('apiTokenInstance');
       const apiUrl = searchParams.get('apiUrl');
       const mediaUrl = searchParams.get('mediaUrl');
-      const ownerId = searchParams.get('ownerId');
-      const orgId = searchParams.get('orgId');
+      // const ownerId = searchParams.get('ownerId');
+      // const orgId = searchParams.get('orgId');
 
-      if (!idInstance || !apiTokenInstance || !apiUrl || !mediaUrl  || !orgId || !ownerId ) return;
+      if (!idInstance || !apiTokenInstance || !apiUrl || !mediaUrl ) return;
 
       const language = searchParams.get('lng');
       const brandDescription = searchParams.get('dsc');
@@ -182,8 +182,8 @@ const BaseLayout: FC = () => {
         mediaUrl: mediaUrl + '/',
         tariff: TariffsEnum.Business,
         typeInstance: 'whatsapp',
-        ownerId,
-        orgId,
+        // ownerId,
+        // orgId,
         // oppId: oppId ? oppId : undefined,
       });
 
@@ -288,7 +288,7 @@ const BaseLayout: FC = () => {
           orgId,
           // ownerId,
         });
-      
+
         if (credentialsError || !credentials) {
           message.error(t('FETCH_ERROR'));
           return;
@@ -302,19 +302,20 @@ const BaseLayout: FC = () => {
         }
 
         setType('partner-iframe');
-        setSelectedInstance({
-          idInstance: +idInstance,
-          apiTokenInstance,
-          apiUrl: apiUrl.endsWith('/') ? apiUrl : apiUrl + '/',
-          mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
-          tariff: TariffsEnum.Business,
-          typeInstance: 'whatsapp',
-          instanceUrl,
-          sessionId,
-          orgId,
-          ownerId,
+        if (!selectedInstance.sessionId || selectedInstance.sessionId !== sessionId)
+          setSelectedInstance({
+            idInstance: +idInstance,
+            apiTokenInstance,
+            apiUrl: apiUrl.endsWith('/') ? apiUrl : apiUrl + '/',
+            mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
+            tariff: TariffsEnum.Business,
+            typeInstance: 'whatsapp',
+            instanceUrl,
+            sessionId,
+            orgId,
+            ownerId,
 
-        });
+          });
 
         language && i18n.changeLanguage(language);
         brandDescription && setBrandData({ description: brandDescription });
