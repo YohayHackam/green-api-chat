@@ -7,7 +7,7 @@ import emptyAvatar from 'assets/emptyAvatar-first.png';
 import AvatarImage from 'components/UI/avatar-image.component';
 import { useActions, useAppSelector } from 'hooks';
 import { useInstanceSettings } from 'hooks/use-instance-settings.hook';
-import { selectUserSideActiveMode } from 'store/slices/chat.slice';
+import { selectType, selectUserSideActiveMode } from 'store/slices/chat.slice';
 import type { AsideItem } from 'types';
 import { useBreakpoint } from 'hooks/use-breakpoint.hook';
 
@@ -19,8 +19,10 @@ const SETTINGS_ITEMS = ['instance', 'profile', 'logout'] as AsideItem['item'][];
 
 const AsideItem: FC<AsideItemProps> = ({ asideItem }) => {
   const activeAsideItem = useAppSelector(selectUserSideActiveMode);
+  const type = useAppSelector(selectType);
 
-  const { setUserSideActiveMode, setActiveChat } = useActions();
+
+  const { setUserSideActiveMode, setActiveChat, setType } = useActions();
   const { isMobile } = useBreakpoint();
 
   const { t } = useTranslation();
@@ -31,6 +33,7 @@ const AsideItem: FC<AsideItemProps> = ({ asideItem }) => {
 
   const handleSetActive = () => {
     if (asideItem.item === 'settings') return;
+    if (asideItem.item === 'chats' && type === 'one-chat-only') setType('partner-iframe');
     setUserSideActiveMode(asideItem.item);
     isMobile && setActiveChat(null);
   };
@@ -54,8 +57,8 @@ const AsideItem: FC<AsideItemProps> = ({ asideItem }) => {
         { active: isActive },
         activeAsideItem === asideItem.item && 'active-aside-item',
         SETTINGS_ITEMS.includes(activeAsideItem) &&
-          asideItem.item === 'settings' &&
-          'active-aside-item'
+        asideItem.item === 'settings' &&
+        'active-aside-item'
       )}
       onClick={handleSetActive}
       title={t(asideItem.title)}
