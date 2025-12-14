@@ -80,6 +80,7 @@ const BaseLayout: FC = () => {
       switch (event.data.type) {
         case MessageEventTypeEnum.INIT:
           if (event.data.payload) {
+            console.log('handleMessage', event);
             let isChatWorking: boolean | null = null;
 
             if (
@@ -117,6 +118,7 @@ const BaseLayout: FC = () => {
           return;
 
         case MessageEventTypeEnum.SET_CREDENTIALS:
+          console.log('handleMessage', event);
           return setSelectedInstance(event.data.payload);
 
         case MessageEventTypeEnum.LOCALE_CHANGE:
@@ -167,7 +169,7 @@ const BaseLayout: FC = () => {
       // const ownerId = searchParams.get('ownerId');
       // const orgId = searchParams.get('orgId');
 
-      if (!idInstance || !apiTokenInstance || !apiUrl || !mediaUrl ) return;
+      if (!idInstance || !apiTokenInstance || !apiUrl || !mediaUrl) return;
 
       const language = searchParams.get('lng');
       const brandDescription = searchParams.get('dsc');
@@ -192,7 +194,7 @@ const BaseLayout: FC = () => {
       brandImageUrl && setBrandData({ brandImageUrl });
 
       if (searchParams.has('chatId')) {
-        setType('one-chat-only');
+        // setType('one-chat-only');
         const chatId = searchParams.get('chatId');
 
         if (chatId) {
@@ -302,9 +304,10 @@ const BaseLayout: FC = () => {
         }
         console.log('sessionId:', sessionId);
         console.log('selectedInstance.sessionId:', selectedInstance.sessionId);
-        console.log('diffrent session:',(selectedInstance.sessionId !== sessionId));
-        setType('partner-iframe');
-        if (!selectedInstance.sessionId || selectedInstance.sessionId !== sessionId)
+        console.log('diffrent session:', (selectedInstance.sessionId !== sessionId));
+        console.log('type:', type);
+        if (type !== 'partner-iframe') setType('partner-iframe');
+        if (!selectedInstance.sessionId || selectedInstance.sessionId !== sessionId) {
           setSelectedInstance({
             idInstance: +idInstance,
             apiTokenInstance,
@@ -318,15 +321,13 @@ const BaseLayout: FC = () => {
             ownerId,
 
           });
-        else {
-          debugger;
         }
         language && i18n.changeLanguage(language);
         brandDescription && setBrandData({ description: brandDescription });
         brandImageUrl && setBrandData({ brandImageUrl });
 
         if (searchParams.has('chatId')) {
-          setType('one-chat-only');
+          // setType('one-chat-only');
           const chatId = searchParams.get('chatId');
 
           if (chatId) {
