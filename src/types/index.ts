@@ -197,7 +197,8 @@ export type MessageData =
   | MessageDataInit
   | MessageDataSetCredentials
   | MessageDataLocaleChange
-  | MessageDataSetTheme;
+  | MessageDataSetTheme
+  | MessageDataSetChatId;
 
 export enum MessageEventTypeEnum {
   INIT = 'init',
@@ -205,6 +206,7 @@ export enum MessageEventTypeEnum {
   SET_CREDENTIALS = 'setCredentials',
   SET_THEME = 'setTheme',
   IFRAME_READY = 'IFRAME_READY',
+  SET_CHAT_ID = 'chatId',
 }
 
 export interface MessageDataInit {
@@ -245,6 +247,11 @@ interface LocaleChangeMessage {
 
 interface ThemeChangeMessage {
   theme: Themes;
+}
+
+export interface MessageDataSetChatId {
+  type: MessageEventTypeEnum.SET_CHAT_ID;
+  payload: string;
 }
 
 export type SendingMethodName =

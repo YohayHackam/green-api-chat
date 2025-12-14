@@ -73,10 +73,96 @@ const BaseLayout: FC = () => {
     }
   }, []);
 
+
+  const handleChatId = async (chatId: string) => {
+    if (chatId) {
+      let contactInfo = undefined;
+      let groupInfo = undefined;
+      let avatar = chatId.includes('g.us') ? emptyAvatarGroup : emptyAvatarButAvailable;
+      let fetchError = undefined;
+
+      if (
+        (chatId.includes('g.us') || chatId.startsWith('-')) &&
+        !selectedInstance.idInstance.toString().startsWith('7835')
+      ) {
+        const { data: groupData, error: groupDataError } = await getGroupData({
+          ...(isMax ? { chatId } : { groupId: chatId }),
+          apiUrl: selectedInstance.apiUrl,
+          mediaUrl: selectedInstance.mediaUrl,
+          apiTokenInstance: selectedInstance.apiTokenInstance,
+          idInstance: selectedInstance.idInstance,
+          // apiUrl: apiUrl.endsWith('/') ? apiUrl : apiUrl + '/',
+          // mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
+          // apiTokenInstance,
+          // idInstance: +idInstance,
+        });
+
+        if (groupData && groupData !== 'Error: item-not-found') groupInfo = groupData;
+        fetchError = groupDataError;
+
+        const { data: avatarData } = await getAvatar({
+          chatId,
+          apiUrl: selectedInstance.apiUrl,
+          mediaUrl: selectedInstance.mediaUrl,
+          apiTokenInstance: selectedInstance.apiTokenInstance,
+          idInstance: selectedInstance.idInstance,
+          // apiUrl: apiUrl.endsWith('/') ? apiUrl : apiUrl + '/',
+          // mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
+          // apiTokenInstance,
+          // idInstance: +idInstance,
+        });
+
+        if (avatarData) {
+          avatar = avatarData.urlAvatar;
+          if (!avatarData.available && !chatId.includes('g.us')) avatar = emptyAvatar;
+        }
+      }
+
+      if (!chatId.includes('g.us') && !selectedInstance.idInstance.toString().startsWith('7835')) {
+        const { data: contactData, error: contactInfoError } = await getContactInfo({
+          chatId,
+          apiUrl: selectedInstance.apiUrl,
+          mediaUrl: selectedInstance.mediaUrl,
+          apiTokenInstance: selectedInstance.apiTokenInstance,
+          idInstance: selectedInstance.idInstance,
+          // apiUrl: apiUrl.endsWith('/') ? apiUrl : apiUrl + '/',
+          // mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
+          // apiTokenInstance,
+          // idInstance: +idInstance,
+        });
+
+        contactInfo = contactData;
+        if (contactInfo?.avatar) avatar = contactInfo.avatar;
+        fetchError = contactInfoError;
+      }
+
+      if (fetchError) {
+        message.error(getErrorMessage(fetchError, t), 0);
+        return;
+      }
+
+      const senderName =
+        (typeof groupInfo === 'object' &&
+          groupInfo !== null &&
+          'subject' in groupInfo &&
+          groupInfo.subject) ||
+        contactInfo?.contactName ||
+        contactInfo?.name ||
+        getPhoneNumberFromChatId(chatId);
+
+      setActiveChat({
+        chatId,
+        senderName,
+        avatar,
+        contactInfo: groupInfo || contactInfo,
+      });
+    }
+  }
+
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
       if (!isConsoleMessageData(event.data)) return;
-
+      console.log('handleMessage', event);
       switch (event.data.type) {
         case MessageEventTypeEnum.INIT:
           if (event.data.payload) {
@@ -127,6 +213,10 @@ const BaseLayout: FC = () => {
         case MessageEventTypeEnum.SET_THEME:
           setIsThemeSet(true);
           setTheme(event.data.payload.theme);
+          return;
+
+        case MessageEventTypeEnum.SET_CHAT_ID:
+          console.log('handle Change ChatId Message', event);
           return;
 
         default:
@@ -198,76 +288,7 @@ const BaseLayout: FC = () => {
         const chatId = searchParams.get('chatId');
 
         if (chatId) {
-          (async () => {
-            let contactInfo = undefined;
-            let groupInfo = undefined;
-            let avatar = chatId.includes('g.us') ? emptyAvatarGroup : emptyAvatarButAvailable;
-            let error = undefined;
-
-            if (
-              (chatId.includes('g.us') || chatId.startsWith('-')) &&
-              !idInstance.toString().startsWith('7835')
-            ) {
-              const { data, error: groupDataError } = await getGroupData({
-                ...(isMax ? { chatId } : { groupId: chatId }),
-                apiUrl: apiUrl + '/',
-                mediaUrl: mediaUrl + '/',
-                apiTokenInstance,
-                idInstance: +idInstance,
-              });
-
-              if (data && data !== 'Error: item-not-found') groupInfo = data;
-              error = groupDataError;
-
-              const { data: avatarData } = await getAvatar({
-                chatId,
-                apiUrl: apiUrl + '/',
-                mediaUrl: mediaUrl + '/',
-                apiTokenInstance,
-                idInstance: +idInstance,
-              });
-
-              if (avatarData) {
-                avatar = avatarData.urlAvatar;
-                if (!avatarData.available && !chatId.includes('g.us')) avatar = emptyAvatar;
-              }
-            }
-
-            if (!chatId.includes('g.us') && !idInstance.toString().startsWith('7835')) {
-              const { data, error: contactInfoError } = await getContactInfo({
-                chatId,
-                apiUrl: apiUrl + '/',
-                mediaUrl: mediaUrl + '/',
-                apiTokenInstance,
-                idInstance: +idInstance,
-              });
-
-              contactInfo = data;
-              if (contactInfo?.avatar) avatar = contactInfo.avatar;
-              error = contactInfoError;
-            }
-
-            if (error) {
-              message.error(getErrorMessage(error, t), 0);
-              return;
-            }
-
-            const senderName =
-              (typeof groupInfo === 'object' &&
-                groupInfo !== null &&
-                'subject' in groupInfo &&
-                groupInfo.subject) ||
-              contactInfo?.contactName ||
-              contactInfo?.name ||
-              getPhoneNumberFromChatId(chatId);
-
-            setActiveChat({
-              chatId,
-              senderName,
-              avatar,
-              contactInfo: groupInfo || contactInfo,
-            });
-          })();
+          handleChatId(chatId);
         }
       }
     }
@@ -302,10 +323,10 @@ const BaseLayout: FC = () => {
           message.error(t('UNKNOWN_ERROR'));
           return;
         }
-        console.log('sessionId:', sessionId);
-        console.log('selectedInstance.sessionId:', selectedInstance.sessionId);
-        console.log('diffrent session:', (selectedInstance.sessionId !== sessionId));
-        console.log('type:', type);
+        // console.log('sessionId:', sessionId);
+        // console.log('selectedInstance.sessionId:', selectedInstance.sessionId);
+        // console.log('diffrent session:', (selectedInstance.sessionId !== sessionId));
+        // console.log('type:', type);
         if (type !== 'partner-iframe') setType('partner-iframe');
         if (!selectedInstance.sessionId || selectedInstance.sessionId !== sessionId) {
           setSelectedInstance({
@@ -331,74 +352,7 @@ const BaseLayout: FC = () => {
           const chatId = searchParams.get('chatId');
 
           if (chatId) {
-            let contactInfo = undefined;
-            let groupInfo = undefined;
-            let avatar = chatId.includes('g.us') ? emptyAvatarGroup : emptyAvatarButAvailable;
-            let fetchError = undefined;
-
-            if (
-              (chatId.includes('g.us') || chatId.startsWith('-')) &&
-              !idInstance.toString().startsWith('7835')
-            ) {
-              const { data: groupData, error: groupDataError } = await getGroupData({
-                ...(isMax ? { chatId } : { groupId: chatId }),
-                apiUrl: apiUrl.endsWith('/') ? apiUrl : apiUrl + '/',
-                mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
-                apiTokenInstance,
-                idInstance: +idInstance,
-              });
-
-              if (groupData && groupData !== 'Error: item-not-found') groupInfo = groupData;
-              fetchError = groupDataError;
-
-              const { data: avatarData } = await getAvatar({
-                chatId,
-                apiUrl: apiUrl.endsWith('/') ? apiUrl : apiUrl + '/',
-                mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
-                apiTokenInstance,
-                idInstance: +idInstance,
-              });
-
-              if (avatarData) {
-                avatar = avatarData.urlAvatar;
-                if (!avatarData.available && !chatId.includes('g.us')) avatar = emptyAvatar;
-              }
-            }
-
-            if (!chatId.includes('g.us') && !idInstance.toString().startsWith('7835')) {
-              const { data: contactData, error: contactInfoError } = await getContactInfo({
-                chatId,
-                apiUrl: apiUrl.endsWith('/') ? apiUrl : apiUrl + '/',
-                mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
-                apiTokenInstance,
-                idInstance: +idInstance,
-              });
-
-              contactInfo = contactData;
-              if (contactInfo?.avatar) avatar = contactInfo.avatar;
-              fetchError = contactInfoError;
-            }
-
-            if (fetchError) {
-              message.error(getErrorMessage(fetchError, t), 0);
-              return;
-            }
-
-            const senderName =
-              (typeof groupInfo === 'object' &&
-                groupInfo !== null &&
-                'subject' in groupInfo &&
-                groupInfo.subject) ||
-              contactInfo?.contactName ||
-              contactInfo?.name ||
-              getPhoneNumberFromChatId(chatId);
-
-            setActiveChat({
-              chatId,
-              senderName,
-              avatar,
-              contactInfo: groupInfo || contactInfo,
-            });
+            handleChatId(chatId);
           }
         }
       })();
