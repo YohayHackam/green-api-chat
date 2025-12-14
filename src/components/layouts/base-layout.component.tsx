@@ -161,8 +161,8 @@ const BaseLayout: FC = () => {
 
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
-      if (!isConsoleMessageData(event.data)) return;
       console.log('handleMessage', event);
+      if (!isConsoleMessageData(event.data)) return;
       switch (event.data.type) {
         case MessageEventTypeEnum.INIT:
           if (event.data.payload) {
