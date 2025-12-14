@@ -28,7 +28,7 @@ const customQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>
 
   const state = api.getState() as RootState;
   const type = state.chatReducer.type;
-  const { idInstance, apiTokenInstance, apiUrl, mediaUrl, allMessages, minutesToRefetch ,orgId, ownerId, } = (
+  const { idInstance, apiTokenInstance, apiUrl, mediaUrl, allMessages, minutesToRefetch ,  instanceUrl, sessionId, orgId, ownerId, } = (
     args as FetchArgs
   ).params as InstanceInterface & { allMessages?: boolean; minutesToRefetch?: number; };
 
@@ -56,7 +56,7 @@ const customQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>
     baseQuery(
       {
         url: `${apiUrl}waInstance${idInstance}/lastIncomingMessages/${apiTokenInstance}`,
-        params: { minutes, orgId, ownerId },
+        params: { minutes, orgId, instanceUrl, sessionId, ownerId },
       },
       { ...api, endpoint: 'lastIncomingMessages' },
       extraOptions
@@ -64,7 +64,7 @@ const customQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>
     baseQuery(
       {
         url: `${apiUrl}waInstance${idInstance}/lastOutgoingMessages/${apiTokenInstance}`,
-        params: { minutes, orgId, ownerId },
+        params: { minutes, orgId, instanceUrl, sessionId, ownerId },
       },
       { ...api, endpoint: 'lastOutgoingMessages' },
       extraOptions

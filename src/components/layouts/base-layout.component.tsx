@@ -309,8 +309,11 @@ const BaseLayout: FC = () => {
           mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
           tariff: TariffsEnum.Business,
           typeInstance: 'whatsapp',
-          ownerId,
+          instanceUrl,
+          sessionId,
           orgId,
+          ownerId,
+
         });
 
         language && i18n.changeLanguage(language);
