@@ -74,7 +74,7 @@ const BaseLayout: FC = () => {
   }, []);
 
 
-  const handleChatId = async (chatId: string) => {
+  const handleChatId = async (chatId: string | null) => {
     if (chatId) {
       setType('one-chat-only');
       let contactInfo = undefined;
@@ -92,10 +92,6 @@ const BaseLayout: FC = () => {
           mediaUrl: selectedInstance.mediaUrl,
           apiTokenInstance: selectedInstance.apiTokenInstance,
           idInstance: selectedInstance.idInstance,
-          // apiUrl: apiUrl.endsWith('/') ? apiUrl : apiUrl + '/',
-          // mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
-          // apiTokenInstance,
-          // idInstance: +idInstance,
         });
 
         if (groupData && groupData !== 'Error: item-not-found') groupInfo = groupData;
@@ -107,10 +103,6 @@ const BaseLayout: FC = () => {
           mediaUrl: selectedInstance.mediaUrl,
           apiTokenInstance: selectedInstance.apiTokenInstance,
           idInstance: selectedInstance.idInstance,
-          // apiUrl: apiUrl.endsWith('/') ? apiUrl : apiUrl + '/',
-          // mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
-          // apiTokenInstance,
-          // idInstance: +idInstance,
         });
 
         if (avatarData) {
@@ -126,10 +118,6 @@ const BaseLayout: FC = () => {
           mediaUrl: selectedInstance.mediaUrl,
           apiTokenInstance: selectedInstance.apiTokenInstance,
           idInstance: selectedInstance.idInstance,
-          // apiUrl: apiUrl.endsWith('/') ? apiUrl : apiUrl + '/',
-          // mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
-          // apiTokenInstance,
-          // idInstance: +idInstance,
         });
 
         contactInfo = contactData;
