@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from 'store';
-import { InstancesState, TariffsEnum, TypeInstance } from 'types';
+import { GetWaSettingsResponseInterface, InstancesState, TariffsEnum, TypeInstance } from 'types';
 
 const getInitialStateFromStorage = (): Partial<InstancesState> | null => {
   try {
@@ -42,7 +42,7 @@ const getInitialStateFromStorage = (): Partial<InstancesState> | null => {
   }
 };
 
-const initialState: InstancesState = {
+const initialState: InstancesState & { waSettings: GetWaSettingsResponseInterface | null } = {
   selectedInstance: {
     idInstance: 0,
     apiTokenInstance: '',
@@ -57,6 +57,7 @@ const initialState: InstancesState = {
   typeInstance: 'whatsapp',
   instanceList: null,
   isAuthorizingInstance: false,
+  waSettings: null,
   ...getInitialStateFromStorage(),
 };
 
@@ -101,6 +102,9 @@ export const instancesSlice = createSlice({
     ) => {
       state.isAuthorizingInstance = action.payload;
     },
+    setWaSettings: (state, action: PayloadAction<GetWaSettingsResponseInterface | null>) => {
+      state.waSettings = action.payload;
+    },
   },
 });
 
@@ -114,3 +118,4 @@ export const selectInstanceTariff = (state: RootState) => state.instancesReducer
 export const selectIsChatWorking = (state: RootState) => state.instancesReducer.isChatWorking;
 export const selectIsAuthorizingInstance = (state: RootState) =>
   state.instancesReducer.isAuthorizingInstance;
+export const selectWaSettings = (state: RootState) => state.instancesReducer.waSettings;

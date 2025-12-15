@@ -1,6 +1,7 @@
 import { MIDDLEWARE_URL } from 'configs';
 
 import { greenAPI } from 'services/green-api/green-api.service';
+import { instancesActions } from 'store/slices/instances.slice';
 import {
   CheckWhatsappParametersInterface,
   GetQRResponseInterface,
@@ -26,6 +27,14 @@ export const accountGreenApiEndpoints = greenAPI.injectEndpoints({
         if (result) return [{ type: 'waSettings', id: arguments_.idInstance }, 'lastMessages'];
         return [{ type: 'waSettings', id: 'waAccountSettings' }, 'lastMessages'];
       },
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(instancesActions.setWaSettings(data));
+        } catch {
+          // ignore errors
+        }
+      },
     }),
     getAccountSettings: builder.query<
       GetWaSettingsResponseInterface,
@@ -38,6 +47,14 @@ export const accountGreenApiEndpoints = greenAPI.injectEndpoints({
       providesTags: (result, _, arguments_) => {
         if (result) return [{ type: 'waSettings', id: arguments_.idInstance }, 'lastMessages'];
         return [{ type: 'waSettings', id: 'waAccountSettings' }, 'lastMessages'];
+      },
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(instancesActions.setWaSettings(data));
+        } catch {
+          // ignore errors
+        }
       },
     }),
     getStateInstance: builder.query<GetStateInstanceResponseInterface, InstanceInterface>({

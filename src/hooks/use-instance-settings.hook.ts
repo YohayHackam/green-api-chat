@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useAppSelector } from './redux.hook';
 import { useIsMaxInstance } from './use-is-max-instance';
 import { useGetWaSettingsQuery, useGetAccountSettingsQuery } from 'services/green-api/endpoints';
-import { selectInstance } from 'store/slices/instances.slice';
+import { selectInstance, selectWaSettings } from 'store/slices/instances.slice';
 import { GetWaSettingsResponseInterface } from 'types';
 
 interface UseInstanceSettingsOptions {
@@ -22,6 +22,7 @@ export const useInstanceSettings = ({
 }: UseInstanceSettingsOptions = {}): UseInstanceSettingsResult => {
   const isMax = useIsMaxInstance();
   const selectedInstance = useAppSelector(selectInstance);
+  const manualWaSettings = useAppSelector(selectWaSettings);
 
   const skipWa = !selectedInstance?.idInstance ||  isMax;
   const skipAccount =
@@ -41,7 +42,9 @@ export const useInstanceSettings = ({
     refetch: refetchAccount,
   } = useGetAccountSettingsQuery({ ...selectedInstance }, { skip: skipAccount, pollingInterval });
 
-  const settings = isMax ? accountSettings : waSettings;
+  // Use manual waSettings from Redux as fallback when RTK Query data is not available
+  const rtkSettings = isMax ? accountSettings : waSettings;
+  const settings = rtkSettings ?? manualWaSettings ?? undefined;
   const isLoading = isMax ? isAccountLoading : isWaLoading;
   const error = isMax ? accountError : waError;
   const refetch = isMax ? refetchAccount : refetchWa;
