@@ -88,10 +88,13 @@ const BaseLayout: FC = () => {
       ) {
         const { data: groupData, error: groupDataError } = await getGroupData({
           ...(isMax ? { chatId } : { groupId: chatId }),
-          apiUrl: selectedInstance.apiUrl,
-          mediaUrl: selectedInstance.mediaUrl,
-          apiTokenInstance: selectedInstance.apiTokenInstance,
+          // apiUrl: selectedInstance.apiUrl,
+          // mediaUrl: selectedInstance.mediaUrl,
+          // apiTokenInstance: selectedInstance.apiTokenInstance,
           idInstance: selectedInstance.idInstance,
+          instanceUrl: selectedInstance.instanceUrl,
+          sessionId: selectedInstance.sessionId,
+          orgId: selectedInstance.orgId,
         });
 
         if (groupData && groupData !== 'Error: item-not-found') groupInfo = groupData;
@@ -99,10 +102,13 @@ const BaseLayout: FC = () => {
 
         const { data: avatarData } = await getAvatar({
           chatId,
-          apiUrl: selectedInstance.apiUrl,
-          mediaUrl: selectedInstance.mediaUrl,
-          apiTokenInstance: selectedInstance.apiTokenInstance,
+          // apiUrl: selectedInstance.apiUrl,
+          // mediaUrl: selectedInstance.mediaUrl,
+          // apiTokenInstance: selectedInstance.apiTokenInstance,
           idInstance: selectedInstance.idInstance,
+          instanceUrl: selectedInstance.instanceUrl,
+          sessionId: selectedInstance.sessionId,
+          orgId: selectedInstance.orgId,
         });
 
         if (avatarData) {
@@ -114,10 +120,13 @@ const BaseLayout: FC = () => {
       if (!chatId.includes('g.us') && !selectedInstance.idInstance.toString().startsWith('7835')) {
         const { data: contactData, error: contactInfoError } = await getContactInfo({
           chatId,
-          apiUrl: selectedInstance.apiUrl,
-          mediaUrl: selectedInstance.mediaUrl,
-          apiTokenInstance: selectedInstance.apiTokenInstance,
+          // apiUrl: selectedInstance.apiUrl,
+          // mediaUrl: selectedInstance.mediaUrl,
+          // apiTokenInstance: selectedInstance.apiTokenInstance,
           idInstance: selectedInstance.idInstance,
+          instanceUrl: selectedInstance.instanceUrl,
+          sessionId: selectedInstance.sessionId,
+          orgId: selectedInstance.orgId,
         });
 
         contactInfo = contactData;
@@ -167,9 +176,13 @@ const BaseLayout: FC = () => {
             setInstanceList(event.data.payload.instanceList);
             setSelectedInstance({
               idInstance: event.data.payload.idInstance,
-              apiTokenInstance: event.data.payload.apiTokenInstance,
-              apiUrl: event.data.payload.apiUrl,
-              mediaUrl: event.data.payload.mediaUrl,
+              instanceUrl: event.data.payload.instanceUrl,
+              orgId: event.data.payload.orgId,
+              sessionId: event.data.payload.sessionId,
+              // apiTokenInstance: event.data.payload.apiTokenInstance,
+              // apiUrl: event.data.payload.apiUrl,
+              // mediaUrl: event.data.payload.mediaUrl,
+              
               tariff: event.data.payload.tariff,
               isChatWorking: isChatWorking,
               typeInstance: event.data.payload.typeInstance,
@@ -221,9 +234,13 @@ const BaseLayout: FC = () => {
       const firstInstance = instanceList[0];
       setSelectedInstance({
         idInstance: firstInstance.idInstance,
-        apiTokenInstance: firstInstance.apiTokenInstance,
-        apiUrl: firstInstance.apiUrl,
-        mediaUrl: firstInstance.mediaUrl,
+        instanceUrl: firstInstance.instanceUrl,
+        sessionId: firstInstance.sessionId,
+        orgId: firstInstance.orgId,
+        // apiTokenInstance: firstInstance.apiTokenInstance,
+        // apiUrl: firstInstance.apiUrl,
+        // mediaUrl: firstInstance.mediaUrl,
+
         tariff: firstInstance.tariff,
         typeInstance: firstInstance.typeInstance,
         isChatWorking: getIsChatWorkingFromStorage(firstInstance.idInstance),
@@ -239,44 +256,44 @@ const BaseLayout: FC = () => {
       }
     }
 
-    if (isPartnerChat(searchParams)) {
-      const idInstance = searchParams.get('idInstance');
-      const apiTokenInstance = searchParams.get('apiTokenInstance');
-      const apiUrl = searchParams.get('apiUrl');
-      const mediaUrl = searchParams.get('mediaUrl');
-      // const ownerId = searchParams.get('ownerId');
-      // const orgId = searchParams.get('orgId');
+    // if (isPartnerChat(searchParams)) {
+    //   const idInstance = searchParams.get('idInstance');
+    //   const apiTokenInstance = searchParams.get('apiTokenInstance');
+    //   const apiUrl = searchParams.get('apiUrl');
+    //   const mediaUrl = searchParams.get('mediaUrl');
+    //   // const ownerId = searchParams.get('ownerId');
+    //   // const orgId = searchParams.get('orgId');
 
-      if (!idInstance || !apiTokenInstance || !apiUrl || !mediaUrl) return;
+    //   if (!idInstance || !apiTokenInstance || !apiUrl || !mediaUrl) return;
 
-      const language = searchParams.get('lng');
-      const brandDescription = searchParams.get('dsc');
-      const brandImageUrl = searchParams.get('logo');
-      // const oppId = searchParams.get('oppId');
+    //   const language = searchParams.get('lng');
+    //   const brandDescription = searchParams.get('dsc');
+    //   const brandImageUrl = searchParams.get('logo');
+    //   // const oppId = searchParams.get('oppId');
 
-      setType('partner-iframe');
-      setSelectedInstance({
-        idInstance: +idInstance,
-        apiTokenInstance,
-        apiUrl: apiUrl + '/',
-        mediaUrl: mediaUrl + '/',
-        tariff: TariffsEnum.Business,
-        typeInstance: 'whatsapp',
-        // ownerId,
-        // orgId,
-        // oppId: oppId ? oppId : undefined,
-      });
+    //   setType('partner-iframe');
+    //   setSelectedInstance({
+    //     idInstance: +idInstance,
+    //     apiTokenInstance,
+    //     apiUrl: apiUrl + '/',
+    //     mediaUrl: mediaUrl + '/',
+    //     tariff: TariffsEnum.Business,
+    //     typeInstance: 'whatsapp',
+    //     // ownerId,
+    //     // orgId,
+    //     // oppId: oppId ? oppId : undefined,
+    //   });
 
-      language && i18n.changeLanguage(language);
-      brandDescription && setBrandData({ description: brandDescription });
-      brandImageUrl && setBrandData({ brandImageUrl });
+    //   language && i18n.changeLanguage(language);
+    //   brandDescription && setBrandData({ description: brandDescription });
+    //   brandImageUrl && setBrandData({ brandImageUrl });
 
-      if (searchParams.has('chatId')) {
-        // setType('one-chat-only');
-        const chatId = searchParams.get('chatId');
-        handleChatId(chatId);
-      }
-    }
+    //   if (searchParams.has('chatId')) {
+    //     // setType('one-chat-only');
+    //     const chatId = searchParams.get('chatId');
+    //     handleChatId(chatId);
+    //   }
+    // }
     if (isHappyflow(searchParams)) {
       const instanceUrl = searchParams.get('instanceUrl');
       const sessionId = searchParams.get('sessionId');
@@ -304,7 +321,7 @@ const BaseLayout: FC = () => {
 
         const { idInstance } = credentials;
 
-        if (!idInstance ) {
+        if (!idInstance) {
           message.error(t('UNKNOWN_ERROR'));
           return;
         }
@@ -312,13 +329,13 @@ const BaseLayout: FC = () => {
         // console.log('selectedInstance.sessionId:', selectedInstance.sessionId);
         // console.log('diffrent session:', (selectedInstance.sessionId !== sessionId));
         // console.log('type:', type);
-        if (type !== 'partner-iframe') setType('partner-iframe');
-        if (!selectedInstance.sessionId || selectedInstance.sessionId !== sessionId) {
+        setType('partner-iframe');
+        // if (!selectedInstance?.sessionId || selectedInstance?.sessionId !== sessionId) {
           setSelectedInstance({
             idInstance: +idInstance,
-            apiTokenInstance,
-            apiUrl: apiUrl.endsWith('/') ? apiUrl : apiUrl + '/',
-            mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
+            // apiTokenInstance,
+            // apiUrl: apiUrl.endsWith('/') ? apiUrl : apiUrl + '/',
+            // mediaUrl: mediaUrl.endsWith('/') ? mediaUrl : mediaUrl + '/',
             tariff: TariffsEnum.Business,
             typeInstance: 'whatsapp',
             instanceUrl,
@@ -327,7 +344,7 @@ const BaseLayout: FC = () => {
             ownerId,
 
           });
-        }
+        // }
         language && i18n.changeLanguage(language);
         brandDescription && setBrandData({ description: brandDescription });
         brandImageUrl && setBrandData({ brandImageUrl });
@@ -335,7 +352,7 @@ const BaseLayout: FC = () => {
         if (searchParams.has('chatId')) {
           // setType('one-chat-only');
           const chatId = searchParams.get('chatId');
-            handleChatId(chatId);
+          handleChatId(chatId);
         }
       })();
     }

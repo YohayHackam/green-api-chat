@@ -45,9 +45,12 @@ export const AuthInstance = () => {
   const { refetch: waRefetch, data: settings } = useGetWaSettingsQuery(
     {
       idInstance: selectedInstance.idInstance,
-      apiTokenInstance: selectedInstance.apiTokenInstance,
-      apiUrl: selectedInstance.apiUrl,
-      mediaUrl: selectedInstance.mediaUrl,
+      // apiTokenInstance: selectedInstance.apiTokenInstance,
+      // apiUrl: selectedInstance.apiUrl,
+      // mediaUrl: selectedInstance.mediaUrl,
+      instanceUrl: selectedInstance.instanceUrl,
+      sessionId: selectedInstance.sessionId,
+      orgId: selectedInstance.orgId,
     },
     {
       skip: isMax,
@@ -59,9 +62,12 @@ export const AuthInstance = () => {
   const { refetch: maxRefetch, data: maxData } = useGetAccountSettingsQuery(
     {
       idInstance: selectedInstance.idInstance,
-      apiTokenInstance: selectedInstance.apiTokenInstance,
-      apiUrl: selectedInstance.apiUrl,
-      mediaUrl: selectedInstance.mediaUrl,
+      // apiTokenInstance: selectedInstance.apiTokenInstance,
+      // apiUrl: selectedInstance.apiUrl,
+      // mediaUrl: selectedInstance.mediaUrl,
+      instanceUrl: selectedInstance.instanceUrl,
+      sessionId: selectedInstance.sessionId,
+      orgId: selectedInstance.orgId,
     },
     {
       skip: !isMax,
@@ -81,9 +87,12 @@ export const AuthInstance = () => {
       try {
         const result = await fetchChats({
           idInstance: selectedInstance.idInstance,
-          apiTokenInstance: selectedInstance.apiTokenInstance,
-          apiUrl: selectedInstance.apiUrl,
-          mediaUrl: selectedInstance.mediaUrl,
+          // apiTokenInstance: selectedInstance.apiTokenInstance,
+          // apiUrl: selectedInstance.apiUrl,
+          // mediaUrl: selectedInstance.mediaUrl,
+          instanceUrl: selectedInstance.instanceUrl,
+          sessionId: selectedInstance.sessionId,
+          orgId: selectedInstance.orgId,
           allMessages: true,
           minutesToRefetch: 26300,
         }).unwrap();
@@ -118,9 +127,12 @@ export const AuthInstance = () => {
       if (document.visibilityState === 'visible') {
         updateStateInstanceTrigger({
           idInstance: selectedInstance.idInstance,
-          apiTokenInstance: selectedInstance.apiTokenInstance,
-          apiUrl: selectedInstance.apiUrl,
-          mediaUrl: selectedInstance.mediaUrl,
+          instanceUrl: selectedInstance.instanceUrl,
+          sessionId: selectedInstance.sessionId,
+          orgId: selectedInstance.orgId,
+          // apiTokenInstance: selectedInstance.apiTokenInstance,
+          // apiUrl: selectedInstance.apiUrl,
+          // mediaUrl: selectedInstance.mediaUrl,
         });
       }
     };
@@ -186,9 +198,12 @@ export const AuthInstance = () => {
 
     getCode({
       idInstance: selectedInstance.idInstance,
-      apiTokenInstance: selectedInstance.apiTokenInstance,
-      apiUrl: selectedInstance.apiUrl,
-      mediaUrl: selectedInstance.mediaUrl,
+      instanceUrl: selectedInstance.instanceUrl,
+      sessionId: selectedInstance.sessionId,
+      orgId: selectedInstance.orgId,
+      // apiTokenInstance: selectedInstance.apiTokenInstance,
+      // apiUrl: selectedInstance.apiUrl,
+      // mediaUrl: selectedInstance.mediaUrl,
       phoneNumber,
     });
   };
@@ -293,8 +308,8 @@ const QrAuthorization = ({
     i18n.resolvedLanguage === 'ru'
       ? EXTERNAL_LINKS.freeDeveloperAccountTutorial.rutube
       : EXTERNAL_LINKS.freeDeveloperAccountTutorial[
-          i18n.resolvedLanguage as keyof typeof EXTERNAL_LINKS.freeDeveloperAccountTutorial
-        ] || EXTERNAL_LINKS.freeDeveloperAccountTutorial.default;
+      i18n.resolvedLanguage as keyof typeof EXTERNAL_LINKS.freeDeveloperAccountTutorial
+      ] || EXTERNAL_LINKS.freeDeveloperAccountTutorial.default;
 
   return (
     <div className="qr">

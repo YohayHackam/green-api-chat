@@ -12,18 +12,18 @@ import {
 export const receivingGreenApiEndpoints = greenAPI.injectEndpoints({
   endpoints: (builder) => ({
     receiveNotification: builder.query<ReceiveNotificationResponseInterface, InstanceInterface>({
-      query: ({ idInstance, apiTokenInstance, apiUrl }) => ({
+      query: () => ({
         url: `${MIDDLEWARE_URL}/receiveNotification`,
       }),
     }),
     deleteNotification: builder.mutation<ResultResponseInterface, DeleteNotificationParameters>({
-      query: ({ idInstance, apiTokenInstance, receiptId, apiUrl }) => ({
+      query: ({ receiptId }) => ({
         url: `${MIDDLEWARE_URL}/deleteNotification/${receiptId}`,
         method: 'DELETE',
       }),
     }),
     downloadFile: builder.mutation<DownloadFileResponseInterface, GetChatInformationParameters>({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({idInstance, ...body }) => ({
         url: `${MIDDLEWARE_URL}/downloadFile`,
         method: 'POST',
         body,

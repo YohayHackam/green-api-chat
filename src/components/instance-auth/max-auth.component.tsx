@@ -40,7 +40,7 @@ const getErrorText = (reason: string) => {
 };
 
 export const MaxAuth: FC = () => {
-  const { idInstance, apiTokenInstance, apiUrl, mediaUrl } = useAppSelector(selectInstance);
+  const { idInstance, instanceUrl, sessionId, orgId } = useAppSelector(selectInstance);
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [statAuthorization] = useStartAuthorizationMutation();
@@ -60,9 +60,12 @@ export const MaxAuth: FC = () => {
       const response = await statAuthorization({
         phoneNumber,
         idInstance,
-        apiTokenInstance,
-        apiUrl,
-        mediaUrl,
+        instanceUrl,
+        sessionId,
+        orgId,
+        // apiTokenInstance,
+        // apiUrl,
+        // mediaUrl,
       }).unwrap();
 
       if (response.data.status === 'fail') {
@@ -79,9 +82,12 @@ export const MaxAuth: FC = () => {
     try {
       const response = await sendAuthorizationCode({
         idInstance,
-        apiTokenInstance,
-        apiUrl,
-        mediaUrl,
+        instanceUrl,
+        sessionId,
+        orgId,
+        // apiTokenInstance,
+        // apiUrl,
+        // mediaUrl,
         code: value,
       }).unwrap();
 

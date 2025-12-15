@@ -26,11 +26,11 @@ export const useQrWebsocket = (orgId: string, instanceUrl: string, sessionId: st
   }, [socket.current]);
 
   function openQrWebsocket({
-    idInstance,
-    apiTokenInstance,
+    // idInstance,
+    // apiTokenInstance,
   }: {
-    idInstance: string;
-    apiTokenInstance: string;
+    // idInstance: string;
+    // apiTokenInstance: string;
   }) {
     if (!socket.current) {
       // const wsUrl = MIDDLEWARE_URL.replace(/^http?/, 'ws');

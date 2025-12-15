@@ -5,7 +5,7 @@ import { SendTextStatusInterface, SendVoiceStatusInterface, SendingResponseInter
 export const statusesGreenApiEndpoints = greenAPI.injectEndpoints({
   endpoints: (builder) => ({
     sendTextStatus: builder.mutation<SendingResponseInterface, SendTextStatusInterface>({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({ idInstance, ...body }) => ({
         url: `${MIDDLEWARE_URL}/sendTextStatus`,
         method: 'POST',
         body,
@@ -15,7 +15,7 @@ export const statusesGreenApiEndpoints = greenAPI.injectEndpoints({
       },
     }),
     sendVoiceStatus: builder.mutation<SendingResponseInterface, SendVoiceStatusInterface>({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({ idInstance, ...body }) => ({
         url: `${MIDDLEWARE_URL}/sendVoiceStatus`,
         method: 'POST',
         body,
@@ -25,7 +25,7 @@ export const statusesGreenApiEndpoints = greenAPI.injectEndpoints({
       },
     }),
     sendMediaStatus: builder.mutation<SendingResponseInterface, SendVoiceStatusInterface>({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({ idInstance, ...body }) => ({
         url: `${MIDDLEWARE_URL}/sendMediaStatus`,
         method: 'POST',
         body,

@@ -18,7 +18,7 @@ export const serviceMethodsGreenApiEndpoints = greenAPI.injectEndpoints({
       CheckWhatsappResponseInterface,
       CheckWhatsappParametersInterface
     >({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({idInstance, ...body }) => ({
         url: `${MIDDLEWARE_URL}/checkWhatsapp`,
         method: 'POST',
         body,
@@ -28,7 +28,7 @@ export const serviceMethodsGreenApiEndpoints = greenAPI.injectEndpoints({
       Pick<SendFileByUrlParametersInterface, 'urlFile'>,
       UploadFileParametersInterface
     >({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({idInstance, ...body }) => ({
         url: `${MIDDLEWARE_URL}/UploadFile`,
         method: 'POST',
         headers: {
@@ -38,7 +38,7 @@ export const serviceMethodsGreenApiEndpoints = greenAPI.injectEndpoints({
       }),
     }),
     getContactInfo: builder.query<GetContactInfoResponseInterface, RequestWithChatIdParameters>({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({idInstance, ...body }) => ({
         url: `${MIDDLEWARE_URL}/getContactInfo`,
         method: 'POST',
         body,
@@ -46,7 +46,7 @@ export const serviceMethodsGreenApiEndpoints = greenAPI.injectEndpoints({
       keepUnusedDataFor: 1000,
     }),
     deleteMessage: builder.mutation<void, GetChatInformationParameters>({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({idInstance, ...body }) => ({
         url: `${MIDDLEWARE_URL}/deleteMessage`,
         method: 'POST',
         body,
@@ -56,7 +56,7 @@ export const serviceMethodsGreenApiEndpoints = greenAPI.injectEndpoints({
       SendingResponseInterface,
       Omit<EditMessageParameters, 'onlySenderDelete'>
     >({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({idInstance, ...body }) => ({
         url: `${MIDDLEWARE_URL}/editMessage`,
         method: 'POST',
         body,

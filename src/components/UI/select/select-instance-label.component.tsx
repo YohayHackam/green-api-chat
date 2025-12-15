@@ -11,24 +11,24 @@ import { ExpandedInstanceInterface, StateInstanceEnum } from 'types';
 
 const SelectInstanceLabel = ({
   idInstance,
-  apiTokenInstance,
-  apiUrl,
-  mediaUrl,
+  instanceUrl,
+  sessionId,
+  orgId,
   name,
   typeInstance,
 }: Pick<
   ExpandedInstanceInterface,
-  'name' | 'idInstance' | 'apiTokenInstance' | 'apiUrl' | 'mediaUrl' | 'typeInstance'
+  'name' | 'idInstance' | 'instanceUrl' | 'sessionId' | 'typeInstance' |'orgId'
 >) => {
   const isMax = isMaxInstance(typeInstance);
 
   const { data: waSettings, isLoading: isLoadingWaSettings } = useGetWaSettingsQuery(
-    { idInstance, apiTokenInstance, apiUrl, mediaUrl },
+    { idInstance, instanceUrl, sessionId, orgId},
     { skip: isMax }
   );
 
   const { data: accountSettings, isLoading: isLoadingAccountSettings } = useGetAccountSettingsQuery(
-    { idInstance, apiTokenInstance, apiUrl, mediaUrl },
+    { idInstance, instanceUrl, sessionId, orgId},
     { skip: !isMax }
   );
 

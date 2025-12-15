@@ -22,6 +22,9 @@ const ChatsHeader: FC = () => {
     setActiveChat(null);
     setSelectedInstance({
       idInstance: 0,
+      instanceUrl: '',
+      sessionId: '',
+      orgId: '',
       apiTokenInstance: '',
       apiUrl: '',
       mediaUrl: '',

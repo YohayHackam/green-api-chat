@@ -29,7 +29,7 @@ npm run preview   # Preview production build
 - `persistedMethods` - Cached/persisted API methods
 
 ### Key Types
-- `InstanceInterface` - WhatsApp instance credentials (idInstance, apiTokenInstance, apiUrl, mediaUrl)
+- `InstanceInterface` - WhatsApp instance credentials (mediaUrl)
 - `ChatType` - App display modes: `tab`, `console-page`, `instance-view-page`, `partner-iframe`, `one-chat-only`
 - `MessageInterface` - WhatsApp message structure
 - `TariffsEnum` - Subscription tiers (DEVELOPER, BUSINESS, BUSINESS_USD, BUSINESS_KZT)

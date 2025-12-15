@@ -23,9 +23,9 @@ export const useInstanceSettings = ({
   const isMax = useIsMaxInstance();
   const selectedInstance = useAppSelector(selectInstance);
 
-  const skipWa = !selectedInstance?.idInstance || !selectedInstance?.apiTokenInstance || isMax;
+  const skipWa = !selectedInstance?.idInstance ||  isMax;
   const skipAccount =
-    !selectedInstance?.idInstance || !selectedInstance?.apiTokenInstance || !isMax;
+    !selectedInstance?.idInstance ||  !isMax;
 
   const {
     data: waSettings,

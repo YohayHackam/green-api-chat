@@ -24,7 +24,7 @@ export const PreviewImageInput: FC<FileOrUrlInputProps> = ({ namePrefix, form, i
   const [uploading, setUploading] = useState(false);
 
   const [uploadFile] = useUploadFileMutation();
-  const { apiTokenInstance, apiUrl, mediaUrl, idInstance } = useAppSelector(selectInstance);
+  const { idInstance, instanceUrl, sessionId, orgId } = useAppSelector(selectInstance);
 
   const watchedUrl = useWatch([...namePrefix, 'urlFile'], form);
 
@@ -42,9 +42,12 @@ export const PreviewImageInput: FC<FileOrUrlInputProps> = ({ namePrefix, form, i
       try {
         const response = await uploadFile({
           file: file,
-          apiTokenInstance: apiTokenInstance,
-          apiUrl: apiUrl,
-          mediaUrl: mediaUrl,
+          instanceUrl: instanceUrl,
+          sessionId: sessionId,
+          orgId: orgId,
+          // apiTokenInstance: apiTokenInstance,
+          // apiUrl: apiUrl,
+          // mediaUrl: mediaUrl,
           idInstance: idInstance,
         }).unwrap();
         const url = response.urlFile;

@@ -29,7 +29,7 @@ export const Profile = () => {
     },
     {
       skip:
-        !selectedInstance?.idInstance || !selectedInstance?.apiTokenInstance || !settings?.phone,
+        !selectedInstance?.idInstance ||  !settings?.phone,
     }
   );
 

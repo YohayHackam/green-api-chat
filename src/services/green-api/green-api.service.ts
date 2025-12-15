@@ -29,11 +29,11 @@ const customQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>
 
   const state = api.getState() as RootState;
   const type = state.chatReducer.type;
-  const { idInstance, apiTokenInstance, apiUrl, mediaUrl, allMessages, minutesToRefetch ,  instanceUrl, sessionId, orgId, ownerId, } = (
+  const {  allMessages, minutesToRefetch ,  instanceUrl, sessionId, orgId, ownerId, } = (
     args as FetchArgs
   ).params as InstanceInterface & { allMessages?: boolean; minutesToRefetch?: number; };
 
-  const cacheKey = `lastMessages(${JSON.stringify({ allMessages, apiTokenInstance, apiUrl, idInstance, mediaUrl })})`;
+  const cacheKey = `lastMessages(${JSON.stringify({ allMessages })})`;
   const currentChats: MessageInterface[] | undefined = state.greenAPI.queries[cacheKey]?.data as
     | MessageInterface[]
     | undefined;

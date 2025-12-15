@@ -83,9 +83,12 @@ const SelectInstance: FC = () => {
 
     setSelectedInstance({
       idInstance: next.idInstance,
-      apiTokenInstance: next.apiTokenInstance,
-      apiUrl: next.apiUrl,
-      mediaUrl: next.mediaUrl,
+      // apiTokenInstance: next.apiTokenInstance,
+      // apiUrl: next.apiUrl,
+      // mediaUrl: next.mediaUrl,
+      instanceUrl: next.instanceUrl,
+      sessionId: next.sessionId,
+      orgId: next.orgId,
       tariff: next.tariff,
       typeInstance: next.typeInstance,
     });
@@ -125,9 +128,12 @@ const SelectInstance: FC = () => {
 
                 setSelectedInstance({
                   idInstance: item.idInstance,
-                  apiTokenInstance: item.apiTokenInstance,
-                  apiUrl: item.apiUrl,
-                  mediaUrl: item.mediaUrl,
+                  instanceUrl: item.instanceUrl,
+                  orgId: item.orgId,
+                  sessionId: item.sessionId,
+                  // apiTokenInstance: item.apiTokenInstance,
+                  // apiUrl: item.apiUrl,
+                  // mediaUrl: item.mediaUrl,
                   tariff: item.tariff,
                   isChatWorking,
                   typeInstance: item.typeInstance,

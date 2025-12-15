@@ -18,7 +18,7 @@ export const accountGreenApiEndpoints = greenAPI.injectEndpoints({
       GetWaSettingsResponseInterface,
       InstanceInterface & { rtkWaSettingsSessionKey?: number }
     >({
-      query: ({ idInstance, apiTokenInstance, apiUrl }) => ({
+      query: () => ({
         url: `${MIDDLEWARE_URL}/getWaSettings`,
       }),
       keepUnusedDataFor: 1000,
@@ -31,7 +31,7 @@ export const accountGreenApiEndpoints = greenAPI.injectEndpoints({
       GetWaSettingsResponseInterface,
       InstanceInterface & { rtkWaSettingsSessionKey?: number }
     >({
-      query: ({ idInstance, apiTokenInstance, apiUrl }) => ({
+      query: () => ({
         url: `${MIDDLEWARE_URL}/getAccountSettings`,
       }),
       keepUnusedDataFor: 1000,
@@ -41,7 +41,7 @@ export const accountGreenApiEndpoints = greenAPI.injectEndpoints({
       },
     }),
     getStateInstance: builder.query<GetStateInstanceResponseInterface, InstanceInterface>({
-      query: ({ idInstance, apiTokenInstance, apiUrl }) => ({
+      query: () => ({
         url: `${MIDDLEWARE_URL}/getStateInstance`,
       }),
     }),
@@ -49,14 +49,14 @@ export const accountGreenApiEndpoints = greenAPI.injectEndpoints({
       GetQRResponseInterface,
       CheckWhatsappParametersInterface
     >({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({ idInstance, ...body }) => ({
         url: `${MIDDLEWARE_URL}/getAuthorizationCode`,
         method: 'POST',
         body,
       }),
     }),
     logout: builder.mutation<LogoutResponseInterface, InstanceInterface>({
-      query: ({ idInstance, apiTokenInstance, apiUrl }) => ({
+      query: () => ({
         url: `${MIDDLEWARE_URL}/logout`,
       }),
       invalidatesTags: (_, __, arguments_) => {
@@ -67,7 +67,7 @@ export const accountGreenApiEndpoints = greenAPI.injectEndpoints({
       StartAuthorizationResponseInterface,
       CheckWhatsappParametersInterface
     >({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({ idInstance, ...body }) => ({
         url: `${MIDDLEWARE_URL}/startAuthorization`,
         method: 'POST',
         body,
@@ -77,7 +77,7 @@ export const accountGreenApiEndpoints = greenAPI.injectEndpoints({
       StartAuthorizationResponseInterface,
       SendMaxAuthCodeParametersInterface
     >({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({ idInstance, ...body }) => ({
         url: `${MIDDLEWARE_URL}/sendAuthorizationCode`,
         method: 'POST',
         body,

@@ -22,9 +22,12 @@ export const Logout = () => {
   const handleLogout = () => {
     logoutInstance({
       idInstance: selectedInstance.idInstance,
-      apiTokenInstance: selectedInstance.apiTokenInstance,
-      apiUrl: selectedInstance?.apiUrl,
-      mediaUrl: selectedInstance?.mediaUrl,
+      instanceUrl: selectedInstance.instanceUrl,
+      sessionId: selectedInstance.sessionId,
+      orgId: selectedInstance.orgId,
+      // apiTokenInstance: selectedInstance.apiTokenInstance,
+      // apiUrl: selectedInstance?.apiUrl,
+      // mediaUrl: selectedInstance?.mediaUrl,
     });
     setUserSideActiveMode('chats');
     setActiveChat(null);

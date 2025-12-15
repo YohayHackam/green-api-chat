@@ -16,28 +16,28 @@ import { getFormData } from 'utils';
 export const sendingGreenApiEndpoints = greenAPI.injectEndpoints({
   endpoints: (builder) => ({
     sendMessage: builder.mutation<SendingResponseInterface, SendMessageParametersInterface>({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({ idInstance, ...body }) => ({
         url: `${MIDDLEWARE_URL}/sendMessage`,
         method: 'POST',
         body,
       }),
     }),
     sendContact: builder.mutation<SendingResponseInterface, SendContactParametersInterface>({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({ idInstance, ...body }) => ({
         url: `${MIDDLEWARE_URL}/sendContact`,
         method: 'POST',
         body,
       }),
     }),
     sendLocation: builder.mutation<SendingResponseInterface, SendLocationParametersInterface>({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({ idInstance, ...body }) => ({
         url: `${MIDDLEWARE_URL}/sendLocation`,
         method: 'POST',
         body,
       }),
     }),
     sendPoll: builder.mutation<SendingResponseInterface, SendPollParametersInterface>({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({ idInstance, ...body }) => ({
         url: `${MIDDLEWARE_URL}/sendPoll`,
         method: 'POST',
         body,
@@ -47,7 +47,7 @@ export const sendingGreenApiEndpoints = greenAPI.injectEndpoints({
       SendFileByUploadResponseInterface,
       SendFileByUploadParametersInterface
     >({
-      query: ({ idInstance, apiTokenInstance, mediaUrl, apiUrl: _, ...body }) => ({
+      query: ({ idInstance, ...body }) => ({
         url: `${MIDDLEWARE_URL}/sendFileByUpload`,
         method: 'POST',
         body: getFormData(body),
@@ -58,7 +58,7 @@ export const sendingGreenApiEndpoints = greenAPI.injectEndpoints({
       SendingResponseInterface,
       SendInteractiveButtonsInterface
     >({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => {
+      query: ({ idInstance, ...body }) => {
         const buttonsWithId = body.buttons.map((button, index) => ({
           ...button,
           buttonId: (index + 1).toString(),
@@ -78,7 +78,7 @@ export const sendingGreenApiEndpoints = greenAPI.injectEndpoints({
       SendingResponseInterface,
       SendInteractiveButtonsInterface
     >({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => {
+      query: ({ idInstance, ...body }) => {
         const buttonsWithId = body.buttons.map((button, index) => ({
           ...button,
           buttonId: (index + 1).toString(),

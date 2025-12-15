@@ -25,7 +25,7 @@ const ContactChatHeader: FC = () => {
   const { data: messages } = useLastMessagesQuery(
     { ...instanceCredentials, allMessages: true },
     {
-      skip: !instanceCredentials?.idInstance || !instanceCredentials.apiTokenInstance,
+      skip: !instanceCredentials?.idInstance ,
     }
   );
 

@@ -28,7 +28,7 @@ export const wabaGreenApiEndpoints = greenAPI.injectEndpoints({
       GetTemplateByIdParametersInterface
     >({
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      query: ({ idInstance, apiTokenInstance, rtkSessionId, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({ idInstance, rtkSessionId, ...body }) => ({
         url: `${MIDDLEWARE_URL}/getTemplateById`,
         method: 'POST',
         body,
@@ -39,7 +39,7 @@ export const wabaGreenApiEndpoints = greenAPI.injectEndpoints({
       },
     }),
     sendTemplate: builder.mutation<SendingResponseInterface, SendTemplateParameters>({
-      query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
+      query: ({ idInstance,...body }) => ({
         url: `${MIDDLEWARE_URL}/sendTemplate`,
         method: 'POST',
         body,

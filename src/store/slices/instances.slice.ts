@@ -8,9 +8,12 @@ const getInitialStateFromStorage = (): Partial<InstancesState> | null => {
     const params = new URLSearchParams(window.location.search);
 
     const idInstance = params.get('idInstance');
-    const apiTokenInstance = params.get('apiTokenInstance');
-    const apiUrl = params.get('apiUrl');
-    const mediaUrl = params.get('mediaUrl');
+    const instanceUrl = params.get('instanceUrl');
+    const sessionId = params.get('sessionId');
+    const orgId = params.get('orgId');
+    // const apiTokenInstance = params.get('apiTokenInstance');
+    // const apiUrl = params.get('apiUrl');
+    // const mediaUrl = params.get('mediaUrl');
 
     const initialStateFromStorage = localStorage.getItem('selectedInstance');
     const parsed = initialStateFromStorage
@@ -18,12 +21,12 @@ const getInitialStateFromStorage = (): Partial<InstancesState> | null => {
       : {};
 
     const selectedInstance =
-      idInstance && apiTokenInstance && apiUrl && mediaUrl
+      idInstance && instanceUrl && sessionId && orgId
         ? {
             idInstance: Number(idInstance),
-            apiTokenInstance,
-            apiUrl,
-            mediaUrl,
+            instanceUrl,
+            sessionId,
+            orgId,
           }
         : parsed.selectedInstance ?? undefined;
 
@@ -45,6 +48,9 @@ const initialState: InstancesState = {
     apiTokenInstance: '',
     apiUrl: '',
     mediaUrl: '',
+    instanceUrl: '',
+    sessionId: '',
+    orgId: '',
   },
   tariff: TariffsEnum.Developer,
   isChatWorking: null,
@@ -70,7 +76,6 @@ export const instancesSlice = createSlice({
       >
     ) => {
       const { tariff, isChatWorking, typeInstance, ...selectedInstance } = action.payload;
-
       state.selectedInstance = selectedInstance;
       state.tariff = tariff;
 
