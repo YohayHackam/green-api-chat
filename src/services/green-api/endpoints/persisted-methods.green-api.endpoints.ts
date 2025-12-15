@@ -25,9 +25,10 @@ export const persistedMethods = createApi({
 
   endpoints: (builder) => ({
     getGroupData: builder.query<GetGroupDataResponseInterface, GroupBaseParametersInterface>({
-      query: ({ idInstance, ...body }) => ({
+      query: ({ idInstance, instanceUrl, sessionId, orgId, ...body }) => ({
         url: `${MIDDLEWARE_URL}/getGroupData`,
         method: 'POST',
+        params: { instanceUrl, sessionId, orgId },
         body,
       }),
       providesTags: (result, error, { groupId, chatId }) => [
@@ -35,9 +36,10 @@ export const persistedMethods = createApi({
       ],
     }),
     getAvatar: builder.query<GetAvatarResponseInterface, RequestWithChatIdParameters>({
-      query: ({ idInstance, ...body }) => ({
+      query: ({ idInstance, instanceUrl, sessionId, orgId, ...body }) => ({
         url: `${MIDDLEWARE_URL}/getAvatar`,
         method: 'POST',
+        params: { instanceUrl, sessionId, orgId },
         body,
       }),
       providesTags: (result, error, { chatId }) => [{ type: 'avatar', id: chatId }],

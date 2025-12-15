@@ -36,6 +36,9 @@ const GroupAvatarUpload: FC<GroupAvatarUploadProps> = ({ activeChat }) => {
     try {
       const { data } = await setGroupPicture({
         idInstance: instanceCredentials.idInstance.toString(),
+        instanceUrl: instanceCredentials.instanceUrl,
+        sessionId: instanceCredentials.sessionId,
+        orgId: instanceCredentials.orgId,
         // apiTokenInstance: instanceCredentials.apiTokenInstance,
         // apiUrl: instanceCredentials.apiUrl,
         body: formData,

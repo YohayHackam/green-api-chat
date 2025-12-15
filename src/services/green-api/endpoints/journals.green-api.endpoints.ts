@@ -10,9 +10,10 @@ import {
 export const journalsGreenApiEndpoints = greenAPI.injectEndpoints({
   endpoints: (builder) => ({
     getChatHistory: builder.query<GetChatHistoryResponse, GetChatHistoryParametersInterface>({
-      query: ({ idInstance, ...body }) => ({
+      query: ({ idInstance, instanceUrl, sessionId, orgId, ...body }) => ({
         url: `${MIDDLEWARE_URL}/getChatHistory`,
         method: 'POST',
+        params: { instanceUrl, sessionId, orgId },
         body,
       }),
       transformResponse: (res: GetChatHistoryResponse) =>

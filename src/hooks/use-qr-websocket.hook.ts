@@ -33,8 +33,8 @@ export const useQrWebsocket = (orgId: string, instanceUrl: string, sessionId: st
     // apiTokenInstance: string;
   }) {
     if (!socket.current) {
-      // const wsUrl = MIDDLEWARE_URL.replace(/^http?/, 'ws');
-      const wsUrl = MIDDLEWARE_URL.replace(/^https?/, 'wss');
+      const wsUrl = MIDDLEWARE_URL.replace(/^http?/, 'ws');
+      // const wsUrl = MIDDLEWARE_URL.replace(/^https?/, 'wss');
       socket.current = new WebSocket(
         `${wsUrl}/scanqrcode?orgId=${orgId}&instanceUrl=${instanceUrl}&sessionId=${sessionId}`,
         

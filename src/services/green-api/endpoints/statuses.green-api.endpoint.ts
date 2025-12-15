@@ -5,9 +5,10 @@ import { SendTextStatusInterface, SendVoiceStatusInterface, SendingResponseInter
 export const statusesGreenApiEndpoints = greenAPI.injectEndpoints({
   endpoints: (builder) => ({
     sendTextStatus: builder.mutation<SendingResponseInterface, SendTextStatusInterface>({
-      query: ({ idInstance, ...body }) => ({
+      query: ({ idInstance, instanceUrl, sessionId, orgId, ...body }) => ({
         url: `${MIDDLEWARE_URL}/sendTextStatus`,
         method: 'POST',
+        params: { instanceUrl, sessionId, orgId },
         body,
       }),
       invalidatesTags: () => {
@@ -15,9 +16,10 @@ export const statusesGreenApiEndpoints = greenAPI.injectEndpoints({
       },
     }),
     sendVoiceStatus: builder.mutation<SendingResponseInterface, SendVoiceStatusInterface>({
-      query: ({ idInstance, ...body }) => ({
+      query: ({ idInstance, instanceUrl, sessionId, orgId, ...body }) => ({
         url: `${MIDDLEWARE_URL}/sendVoiceStatus`,
         method: 'POST',
+        params: { instanceUrl, sessionId, orgId },
         body,
       }),
       invalidatesTags: () => {
@@ -25,9 +27,10 @@ export const statusesGreenApiEndpoints = greenAPI.injectEndpoints({
       },
     }),
     sendMediaStatus: builder.mutation<SendingResponseInterface, SendVoiceStatusInterface>({
-      query: ({ idInstance, ...body }) => ({
+      query: ({ idInstance, instanceUrl, sessionId, orgId, ...body }) => ({
         url: `${MIDDLEWARE_URL}/sendMediaStatus`,
         method: 'POST',
+        params: { instanceUrl, sessionId, orgId },
         body,
       }),
       invalidatesTags: () => {

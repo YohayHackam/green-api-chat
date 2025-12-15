@@ -17,9 +17,10 @@ import {
 export const groupGreenApiEndpoints = greenAPI.injectEndpoints({
   endpoints: (builder) => ({
     updateGroupName: builder.mutation<UpdateGroupNameResponseInterface, UpdateGroupNameInterface>({
-      query: ({ idInstance, ...body }) => ({
+      query: ({ idInstance, instanceUrl, sessionId, orgId, ...body }) => ({
         url: `${MIDDLEWARE_URL}/updateGroupName`,
         method: 'POST',
+        params: { instanceUrl, sessionId, orgId },
         body,
       }),
       invalidatesTags: (result, error, { groupId, chatId }) => {
@@ -30,9 +31,10 @@ export const groupGreenApiEndpoints = greenAPI.injectEndpoints({
       AddGroupParticipantResponseInterface,
       GroupParticipantApiInterface
     >({
-      query: ({ idInstance, ...body }) => ({
+      query: ({ idInstance, instanceUrl, sessionId, orgId, ...body }) => ({
         url: `${MIDDLEWARE_URL}/addGroupParticipant`,
         method: 'POST',
+        params: { instanceUrl, sessionId, orgId },
         body,
       }),
       invalidatesTags: (result, error, { groupId }) => {
@@ -43,9 +45,10 @@ export const groupGreenApiEndpoints = greenAPI.injectEndpoints({
       RemoveGroupParticipantResponseInterface,
       GroupParticipantApiInterface
     >({
-      query: ({ idInstance, ...body }) => ({
+      query: ({ idInstance, instanceUrl, sessionId, orgId, ...body }) => ({
         url: `${MIDDLEWARE_URL}/removeGroupParticipant`,
         method: 'POST',
+        params: { instanceUrl, sessionId, orgId },
         body,
       }),
       invalidatesTags: (result, error, { groupId }) => {
@@ -53,9 +56,10 @@ export const groupGreenApiEndpoints = greenAPI.injectEndpoints({
       },
     }),
     setGroupAdmin: builder.mutation<SetGroupAdminResponseInterface, SetGroupAdminInterface>({
-      query: ({ idInstance, ...body }) => ({
+      query: ({ idInstance, instanceUrl, sessionId, orgId, ...body }) => ({
         url: `${MIDDLEWARE_URL}/setGroupAdmin`,
         method: 'POST',
+        params: { instanceUrl, sessionId, orgId },
         body,
       }),
       invalidatesTags: (result, error, { groupId, chatId }) => {
@@ -63,9 +67,10 @@ export const groupGreenApiEndpoints = greenAPI.injectEndpoints({
       },
     }),
     removeAdmin: builder.mutation<RemoveGroupAdminResponseInterface, SetGroupAdminInterface>({
-      query: ({ idInstance, ...body }) => ({
+      query: ({ idInstance, instanceUrl, sessionId, orgId, ...body }) => ({
         url: `${MIDDLEWARE_URL}/removeAdmin`,
         method: 'POST',
+        params: { instanceUrl, sessionId, orgId },
         body,
       }),
       invalidatesTags: (result, error, { groupId, chatId }) => {
@@ -76,14 +81,18 @@ export const groupGreenApiEndpoints = greenAPI.injectEndpoints({
       SetGroupPictureResponseInterface,
       {
         idInstance: string;
+        instanceUrl: string;
+        sessionId: string;
+        orgId: string;
         // apiTokenInstance: string;
         // apiUrl: string;
         body: FormData;
       }
     >({
-      query: ({ idInstance, ...body }) => ({
+      query: ({ idInstance, instanceUrl, sessionId, orgId, ...body }) => ({
         url: `${MIDDLEWARE_URL}/setGroupPicture`,
         method: 'POST',
+        params: { instanceUrl, sessionId, orgId },
         body,
       }),
       invalidatesTags: (result, error, { body }) => {
@@ -104,9 +113,10 @@ export const groupGreenApiEndpoints = greenAPI.injectEndpoints({
       },
     }),
     leaveGroup: builder.mutation<LeaveGroupResponseInterface, GroupBaseParametersInterface>({
-      query: ({ idInstance, ...body }) => ({
+      query: ({ idInstance, instanceUrl, sessionId, orgId, ...body }) => ({
         url: `${MIDDLEWARE_URL}/leaveGroup`,
         method: 'POST',
+        params: { instanceUrl, sessionId, orgId },
         body,
       }),
       invalidatesTags: (result, error, { groupId, chatId }) => {
