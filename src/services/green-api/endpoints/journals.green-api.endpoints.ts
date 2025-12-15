@@ -1,3 +1,5 @@
+import { MIDDLEWARE_URL } from 'configs';
+
 import { greenAPI } from 'services/green-api/green-api.service';
 import {
   GetChatHistoryParametersInterface,
@@ -9,7 +11,7 @@ export const journalsGreenApiEndpoints = greenAPI.injectEndpoints({
   endpoints: (builder) => ({
     getChatHistory: builder.query<GetChatHistoryResponse, GetChatHistoryParametersInterface>({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/getChatHistory/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/getChatHistory`,
         method: 'POST',
         body,
       }),
@@ -26,7 +28,7 @@ export const journalsGreenApiEndpoints = greenAPI.injectEndpoints({
     }),
     lastIncomingMessages: builder.query<GetChatHistoryResponse, LastMessagesParametersInterface>({
       query: ({ idInstance, apiTokenInstance, apiUrl, minutes }) => ({
-        url: `${apiUrl}waInstance${idInstance}/lastIncomingMessages/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/lastIncomingMessages`,
         method: 'GET',
         params: {
           minutes,
@@ -35,7 +37,7 @@ export const journalsGreenApiEndpoints = greenAPI.injectEndpoints({
     }),
     lastOutgoingMessages: builder.query<GetChatHistoryResponse, LastMessagesParametersInterface>({
       query: ({ idInstance, apiTokenInstance, apiUrl, minutes }) => ({
-        url: `${apiUrl}waInstance${idInstance}/lastOutgoingMessages/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/lastOutgoingMessages`,
         method: 'GET',
         params: {
           minutes,

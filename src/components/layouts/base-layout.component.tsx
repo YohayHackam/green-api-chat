@@ -302,9 +302,9 @@ const BaseLayout: FC = () => {
           return;
         }
 
-        const { idInstance, apiTokenInstance, apiUrl, mediaUrl } = credentials;
+        const { idInstance } = credentials;
 
-        if (!idInstance || !apiTokenInstance || !apiUrl || !mediaUrl) {
+        if (!idInstance ) {
           message.error(t('UNKNOWN_ERROR'));
           return;
         }

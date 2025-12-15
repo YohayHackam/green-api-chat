@@ -1,3 +1,4 @@
+import { MIDDLEWARE_URL } from 'configs';
 import { greenAPI } from 'services/green-api/green-api.service';
 import {
   InstanceInterface,
@@ -12,18 +13,18 @@ export const receivingGreenApiEndpoints = greenAPI.injectEndpoints({
   endpoints: (builder) => ({
     receiveNotification: builder.query<ReceiveNotificationResponseInterface, InstanceInterface>({
       query: ({ idInstance, apiTokenInstance, apiUrl }) => ({
-        url: `${apiUrl}waInstance${idInstance}/receiveNotification/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/receiveNotification`,
       }),
     }),
     deleteNotification: builder.mutation<ResultResponseInterface, DeleteNotificationParameters>({
       query: ({ idInstance, apiTokenInstance, receiptId, apiUrl }) => ({
-        url: `${apiUrl}waInstance${idInstance}/deleteNotification/${apiTokenInstance}/${receiptId}`,
+        url: `${MIDDLEWARE_URL}/deleteNotification/${receiptId}`,
         method: 'DELETE',
       }),
     }),
     downloadFile: builder.mutation<DownloadFileResponseInterface, GetChatInformationParameters>({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/downloadFile/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/downloadFile`,
         method: 'POST',
         body,
       }),

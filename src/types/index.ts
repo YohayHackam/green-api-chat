@@ -79,9 +79,9 @@ export type TypeInstance = 'whatsapp' | 'v3';
 
 export interface InstanceInterface {
   idInstance: number;
-  apiTokenInstance: string;
-  apiUrl: string;
-  mediaUrl: string;
+  apiTokenInstance?: string;
+  apiUrl?: string;
+  mediaUrl?: string;
   instanceUrl?: string;
   sessionId?: string;
   orgId?: string;

@@ -1,3 +1,5 @@
+import { MIDDLEWARE_URL } from 'configs';
+
 import { greenAPI } from 'services/green-api/green-api.service';
 import {
   SendMessageParametersInterface,
@@ -15,28 +17,28 @@ export const sendingGreenApiEndpoints = greenAPI.injectEndpoints({
   endpoints: (builder) => ({
     sendMessage: builder.mutation<SendingResponseInterface, SendMessageParametersInterface>({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/sendMessage/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/sendMessage`,
         method: 'POST',
         body,
       }),
     }),
     sendContact: builder.mutation<SendingResponseInterface, SendContactParametersInterface>({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/sendContact/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/sendContact`,
         method: 'POST',
         body,
       }),
     }),
     sendLocation: builder.mutation<SendingResponseInterface, SendLocationParametersInterface>({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/sendLocation/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/sendLocation`,
         method: 'POST',
         body,
       }),
     }),
     sendPoll: builder.mutation<SendingResponseInterface, SendPollParametersInterface>({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/sendPoll/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/sendPoll`,
         method: 'POST',
         body,
       }),
@@ -46,7 +48,7 @@ export const sendingGreenApiEndpoints = greenAPI.injectEndpoints({
       SendFileByUploadParametersInterface
     >({
       query: ({ idInstance, apiTokenInstance, mediaUrl, apiUrl: _, ...body }) => ({
-        url: `${mediaUrl}waInstance${idInstance}/sendFileByUpload/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/sendFileByUpload`,
         method: 'POST',
         body: getFormData(body),
         formData: true,
@@ -63,7 +65,7 @@ export const sendingGreenApiEndpoints = greenAPI.injectEndpoints({
         }));
 
         return {
-          url: `${apiUrl}waInstance${idInstance}/sendInteractiveButtons/${apiTokenInstance}`,
+          url: `${MIDDLEWARE_URL}/sendInteractiveButtons`,
           method: 'POST',
           body: {
             ...body,
@@ -83,7 +85,7 @@ export const sendingGreenApiEndpoints = greenAPI.injectEndpoints({
         }));
 
         return {
-          url: `${apiUrl}waInstance${idInstance}/sendInteractiveButtonsReply/${apiTokenInstance}`,
+          url: `${MIDDLEWARE_URL}/sendInteractiveButtonsReply`,
           method: 'POST',
           body: {
             ...body,

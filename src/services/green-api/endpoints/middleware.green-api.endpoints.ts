@@ -10,9 +10,9 @@ interface GetGreenCredentialsParams {
 
 interface GetGreenCredentialsResponse {
   idInstance: number;
-  apiTokenInstance: string;
-  apiUrl: string;
-  mediaUrl: string;
+  // apiTokenInstance: string;
+  // apiUrl: string;
+  // mediaUrl: string;
 }
 
 export const middlewareGreenApiEndpoints = greenAPI.injectEndpoints({

@@ -1,3 +1,4 @@
+import { MIDDLEWARE_URL } from 'configs';
 import { greenAPI } from 'services/green-api/green-api.service';
 import {
   AddGroupParticipantResponseInterface,
@@ -17,7 +18,7 @@ export const groupGreenApiEndpoints = greenAPI.injectEndpoints({
   endpoints: (builder) => ({
     updateGroupName: builder.mutation<UpdateGroupNameResponseInterface, UpdateGroupNameInterface>({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/updateGroupName/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/updateGroupName`,
         method: 'POST',
         body,
       }),
@@ -30,7 +31,7 @@ export const groupGreenApiEndpoints = greenAPI.injectEndpoints({
       GroupParticipantApiInterface
     >({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/addGroupParticipant/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/addGroupParticipant`,
         method: 'POST',
         body,
       }),
@@ -43,7 +44,7 @@ export const groupGreenApiEndpoints = greenAPI.injectEndpoints({
       GroupParticipantApiInterface
     >({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/removeGroupParticipant/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/removeGroupParticipant`,
         method: 'POST',
         body,
       }),
@@ -53,7 +54,7 @@ export const groupGreenApiEndpoints = greenAPI.injectEndpoints({
     }),
     setGroupAdmin: builder.mutation<SetGroupAdminResponseInterface, SetGroupAdminInterface>({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/setGroupAdmin/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/setGroupAdmin`,
         method: 'POST',
         body,
       }),
@@ -63,7 +64,7 @@ export const groupGreenApiEndpoints = greenAPI.injectEndpoints({
     }),
     removeAdmin: builder.mutation<RemoveGroupAdminResponseInterface, SetGroupAdminInterface>({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/removeAdmin/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/removeAdmin`,
         method: 'POST',
         body,
       }),
@@ -81,7 +82,7 @@ export const groupGreenApiEndpoints = greenAPI.injectEndpoints({
       }
     >({
       query: ({ idInstance, apiTokenInstance, apiUrl, body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/setGroupPicture/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/setGroupPicture`,
         method: 'POST',
         body,
       }),
@@ -104,7 +105,7 @@ export const groupGreenApiEndpoints = greenAPI.injectEndpoints({
     }),
     leaveGroup: builder.mutation<LeaveGroupResponseInterface, GroupBaseParametersInterface>({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/leaveGroup/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/leaveGroup`,
         method: 'POST',
         body,
       }),

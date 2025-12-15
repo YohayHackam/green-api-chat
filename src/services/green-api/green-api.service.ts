@@ -1,3 +1,4 @@
+import { MIDDLEWARE_URL } from 'configs';
 import {
   BaseQueryFn,
   createApi,
@@ -55,7 +56,8 @@ const customQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>
   const [lastIncomingMessages, lastOutgoingMessages] = await Promise.all([
     baseQuery(
       {
-        url: `${apiUrl}waInstance${idInstance}/lastIncomingMessages/${apiTokenInstance}`,
+        // url: `/lastIncomingMessages/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/lastIncomingMessages`,
         params: { minutes, orgId, instanceUrl, sessionId, ownerId },
       },
       { ...api, endpoint: 'lastIncomingMessages' },
@@ -63,7 +65,7 @@ const customQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>
     ),
     baseQuery(
       {
-        url: `${apiUrl}waInstance${idInstance}/lastOutgoingMessages/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/lastOutgoingMessages`,
         params: { minutes, orgId, instanceUrl, sessionId, ownerId },
       },
       { ...api, endpoint: 'lastOutgoingMessages' },

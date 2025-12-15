@@ -1,3 +1,5 @@
+import { MIDDLEWARE_URL } from 'configs';
+
 import { greenAPI } from 'services/green-api/green-api.service';
 import {
   CheckWhatsappParametersInterface,
@@ -17,7 +19,7 @@ export const accountGreenApiEndpoints = greenAPI.injectEndpoints({
       InstanceInterface & { rtkWaSettingsSessionKey?: number }
     >({
       query: ({ idInstance, apiTokenInstance, apiUrl }) => ({
-        url: `${apiUrl}waInstance${idInstance}/getWaSettings/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/getWaSettings`,
       }),
       keepUnusedDataFor: 1000,
       providesTags: (result, _, arguments_) => {
@@ -30,7 +32,7 @@ export const accountGreenApiEndpoints = greenAPI.injectEndpoints({
       InstanceInterface & { rtkWaSettingsSessionKey?: number }
     >({
       query: ({ idInstance, apiTokenInstance, apiUrl }) => ({
-        url: `${apiUrl}waInstance${idInstance}/getAccountSettings/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/getAccountSettings`,
       }),
       keepUnusedDataFor: 1000,
       providesTags: (result, _, arguments_) => {
@@ -40,7 +42,7 @@ export const accountGreenApiEndpoints = greenAPI.injectEndpoints({
     }),
     getStateInstance: builder.query<GetStateInstanceResponseInterface, InstanceInterface>({
       query: ({ idInstance, apiTokenInstance, apiUrl }) => ({
-        url: `${apiUrl}waInstance${idInstance}/getStateInstance/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/getStateInstance`,
       }),
     }),
     getAuthorizationCode: builder.mutation<
@@ -48,14 +50,14 @@ export const accountGreenApiEndpoints = greenAPI.injectEndpoints({
       CheckWhatsappParametersInterface
     >({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/getAuthorizationCode/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/getAuthorizationCode`,
         method: 'POST',
         body,
       }),
     }),
     logout: builder.mutation<LogoutResponseInterface, InstanceInterface>({
       query: ({ idInstance, apiTokenInstance, apiUrl }) => ({
-        url: `${apiUrl}waInstance${idInstance}/logout/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/logout`,
       }),
       invalidatesTags: (_, __, arguments_) => {
         return [{ type: 'waSettings', id: arguments_.idInstance }];
@@ -66,7 +68,7 @@ export const accountGreenApiEndpoints = greenAPI.injectEndpoints({
       CheckWhatsappParametersInterface
     >({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/startAuthorization/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/startAuthorization`,
         method: 'POST',
         body,
       }),
@@ -76,7 +78,7 @@ export const accountGreenApiEndpoints = greenAPI.injectEndpoints({
       SendMaxAuthCodeParametersInterface
     >({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/sendAuthorizationCode/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/sendAuthorizationCode`,
         method: 'POST',
         body,
       }),

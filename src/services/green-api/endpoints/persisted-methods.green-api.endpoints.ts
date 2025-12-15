@@ -1,5 +1,5 @@
+import { MIDDLEWARE_URL } from 'configs';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
 import {
   GetAvatarResponseInterface,
   GetGroupDataResponseInterface,
@@ -26,7 +26,7 @@ export const persistedMethods = createApi({
   endpoints: (builder) => ({
     getGroupData: builder.query<GetGroupDataResponseInterface, GroupBaseParametersInterface>({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/getGroupData/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/getGroupData`,
         method: 'POST',
         body,
       }),
@@ -36,7 +36,7 @@ export const persistedMethods = createApi({
     }),
     getAvatar: builder.query<GetAvatarResponseInterface, RequestWithChatIdParameters>({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/getAvatar/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/getAvatar`,
         method: 'POST',
         body,
       }),

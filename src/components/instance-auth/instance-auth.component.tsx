@@ -102,7 +102,9 @@ export const AuthInstance = () => {
   };
 
   const { openQrWebsocket, qrData, qrText, isQrLoading, isQrError } = useQrWebsocket(
-    selectedInstance.apiUrl,
+    selectedInstance.orgId,
+    selectedInstance.instanceUrl,
+    selectedInstance.sessionId,
     onAuthorized
   );
 
@@ -249,16 +251,16 @@ export const AuthInstance = () => {
             />
           ),
         },
-        {
-          key: 'send-qr',
-          label: <span>{t('SEND_QR_TO_CLIENT')}</span>,
-          children: (
-            <SendQrAuthorization
-              qrLink={`${QR_HTTP_HOST}/waInstance${selectedInstance.idInstance}/${selectedInstance.apiTokenInstance}`}
-              language={i18n.resolvedLanguage ?? ''}
-            />
-          ),
-        },
+        // {
+        //   key: 'send-qr',
+        //   label: <span>{t('SEND_QR_TO_CLIENT')}</span>,
+        //   children: (
+        //     <SendQrAuthorization
+        //       qrLink={`${QR_HTTP_HOST}/waInstance${selectedInstance.idInstance}/${selectedInstance.apiTokenInstance}`}
+        //       language={i18n.resolvedLanguage ?? ''}
+        //     />
+        //   ),
+        // },
       ]}
     />
   );
@@ -346,12 +348,12 @@ const QrAuthorization = ({
               >
                 {t('LINK_BY')} {t('LINK_BY_PHONE')}
               </div>
-              <div
+              {/* <div
                 onClick={onSwitchToSendQr}
                 className="margin-top link link-blue link-hover-underline cursor-pointer"
               >
                 {t('SEND_QR_TO_CLIENT')}
-              </div>
+              </div> */}
             </>
           )}
         </div>
@@ -476,27 +478,27 @@ const PhoneAuthorization = ({
   );
 };
 
-const SendQrAuthorization = ({ qrLink, language }: { qrLink: string; language: string }) => {
-  const { t } = useTranslation();
+// const SendQrAuthorization = ({ qrLink, language }: { qrLink: string; language: string }) => {
+//   const { t } = useTranslation();
 
-  return (
-    <div className="qr">
-      <div className="qr__block" style={{ alignSelf: 'center', rowGap: 10 }}>
-        <span style={{ fontSize: '1rem' }} className="text-center">
-          {t('SEND_QR_TO_CLIENT_DESCRIPTION')}{' '}
-          <CopyButton text={qrLink} additionalClassname="icon-button__qr-link" />
-        </span>
-        <Button
-          className="simpleType w-100"
-          type="primary"
-          size="large"
-          target="_blank"
-          href={qrLink}
-        >
-          {t('INSTANCE_OPEN')}
-        </Button>
-      </div>
-      {language === 'ru' ? <QrInstructionCarouselRu /> : <QrInstructionCarouselEn />}
-    </div>
-  );
-};
+//   return (
+//     <div className="qr">
+//       <div className="qr__block" style={{ alignSelf: 'center', rowGap: 10 }}>
+//         <span style={{ fontSize: '1rem' }} className="text-center">
+//           {t('SEND_QR_TO_CLIENT_DESCRIPTION')}{' '}
+//           <CopyButton text={qrLink} additionalClassname="icon-button__qr-link" />
+//         </span>
+//         <Button
+//           className="simpleType w-100"
+//           type="primary"
+//           size="large"
+//           target="_blank"
+//           href={qrLink}
+//         >
+//           {t('INSTANCE_OPEN')}
+//         </Button>
+//       </div>
+//       {language === 'ru' ? <QrInstructionCarouselRu /> : <QrInstructionCarouselEn />}
+//     </div>
+//   );
+// };

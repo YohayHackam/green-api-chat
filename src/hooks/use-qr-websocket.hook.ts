@@ -1,10 +1,11 @@
+import { MIDDLEWARE_URL } from 'configs';
 import { useEffect, useRef, useState } from 'react';
 
 import { useAppDispatch } from './redux.hook';
 import { qrInstructionSlice } from 'store/slices/qr-instruction.slice';
 import { QrWebsocketResponseInterface } from 'types';
 
-export const useQrWebsocket = (apiUrl: string, onClose: () => void) => {
+export const useQrWebsocket = (orgId: string, instanceUrl: string, sessionId: string, onClose: () => void) => {
   const dispatch = useAppDispatch();
   const showQrInstruction = qrInstructionSlice.actions.showQrInstruction;
 
@@ -32,9 +33,12 @@ export const useQrWebsocket = (apiUrl: string, onClose: () => void) => {
     apiTokenInstance: string;
   }) {
     if (!socket.current) {
-      const wsUrl = apiUrl.replace(/^https?/, 'wss');
+      // const wsUrl = MIDDLEWARE_URL.replace(/^http?/, 'ws');
+      const wsUrl = MIDDLEWARE_URL.replace(/^https?/, 'wss');
       socket.current = new WebSocket(
-        `${wsUrl}waInstance${idInstance}/scanqrcode/${apiTokenInstance}`
+        `${wsUrl}/scanqrcode?orgId=${orgId}&instanceUrl=${instanceUrl}&sessionId=${sessionId}`,
+        
+
       );
 
       if (isQrError) setIsQrError(false);

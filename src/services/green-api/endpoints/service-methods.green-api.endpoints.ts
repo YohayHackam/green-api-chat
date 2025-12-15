@@ -1,3 +1,4 @@
+import { MIDDLEWARE_URL } from 'configs';
 import { greenAPI } from 'services/green-api/green-api.service';
 import {
   CheckWhatsappParametersInterface,
@@ -18,7 +19,7 @@ export const serviceMethodsGreenApiEndpoints = greenAPI.injectEndpoints({
       CheckWhatsappParametersInterface
     >({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/checkWhatsapp/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/checkWhatsapp`,
         method: 'POST',
         body,
       }),
@@ -28,7 +29,7 @@ export const serviceMethodsGreenApiEndpoints = greenAPI.injectEndpoints({
       UploadFileParametersInterface
     >({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/UploadFile/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/UploadFile`,
         method: 'POST',
         headers: {
           'content-type': body.file.type,
@@ -38,7 +39,7 @@ export const serviceMethodsGreenApiEndpoints = greenAPI.injectEndpoints({
     }),
     getContactInfo: builder.query<GetContactInfoResponseInterface, RequestWithChatIdParameters>({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/getContactInfo/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/getContactInfo`,
         method: 'POST',
         body,
       }),
@@ -46,7 +47,7 @@ export const serviceMethodsGreenApiEndpoints = greenAPI.injectEndpoints({
     }),
     deleteMessage: builder.mutation<void, GetChatInformationParameters>({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/deleteMessage/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/deleteMessage`,
         method: 'POST',
         body,
       }),
@@ -56,7 +57,7 @@ export const serviceMethodsGreenApiEndpoints = greenAPI.injectEndpoints({
       Omit<EditMessageParameters, 'onlySenderDelete'>
     >({
       query: ({ idInstance, apiTokenInstance, apiUrl, mediaUrl: _, ...body }) => ({
-        url: `${apiUrl}waInstance${idInstance}/editMessage/${apiTokenInstance}`,
+        url: `${MIDDLEWARE_URL}/editMessage`,
         method: 'POST',
         body,
       }),
